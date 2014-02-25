@@ -7,6 +7,7 @@ DB = {
     test:'AAAAA',
 };
 DB.init = function(){
+    //this.connect = new Firebase('https://mytestapp-samui13.firebaseio.com/');
     this.connect = new Firebase('https://mytestapp-samui13.firebaseio.com/');
     this.roomsRef = this.connect.child('rooms');
     /*
@@ -79,6 +80,11 @@ DB.registFN.postits = function(){
     });
 }
 DB.createRoom = function(theme,name){
+    if(typeof this.roomRef === 'undefined'){
+	DB.init();
+    }
+    
+    console.log(roomRef);
     var roomRef = this.roomsRef.push({theme:theme});
     var membersRef = roomRef.child('members');
     var memberData = membersRef.push({
