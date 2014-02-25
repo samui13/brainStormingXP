@@ -1,4 +1,5 @@
 userUI = {};
 userUI.createRoom = function(theme,name){
-    return {};
+    var data = DB.createRoom(theme,name);
+    return data;
 };

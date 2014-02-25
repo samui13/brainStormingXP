@@ -4,6 +4,13 @@ stormControllers.controller('StormCtrl',
 			    function($scope,$http,$routeParams){
 				console.log($routeParams);
 				$scope.roomID = $routeParams.roomID;
+				if(typeof $scope.roomID !== 'undefined'){
+				    //redirect
+}
+				(function(ID){
+				    DB.connectRoom(ID);
+				})($scope.roomID);
+				    
 			    }]);
 stormControllers.controller('StormMakeCtrl',
 			    ['$scope','$http','$cookies','$location',
@@ -16,7 +23,6 @@ stormControllers.controller('StormMakeCtrl',
 				     
 				     //this.text
 				     var data = userUI.createRoom(this.theme,this.name);
-				     data.ID = 'tes';
 				     $location.path("/brain/"+data.ID);
 				 };
 			     }]);
