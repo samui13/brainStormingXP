@@ -27,10 +27,10 @@ stormControllers.controller('StormCtrl',
 				DB.connectRoom($scope.roomID);
 				$scope.theme = 'None';
 				$scope.addPostIt = function(){
-				    userUI.addPostIt();
+				    userUI.addPostIt($scope.roomID);
 				}
 				$scope.addGroup = function(){
-				    userUI.addGroup();
+				    userUI.addGroup(0,0,100,100,'red','None');
 				}
 				$scope.viewSheet = function(){
 				    userUI.viewSheet()
