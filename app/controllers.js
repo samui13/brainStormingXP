@@ -13,19 +13,28 @@ stormControllers.controller('StormAddUserCtrl',
 			    }]);
 // brain/:hash
 stormControllers.controller('StormCtrl',
-			    ['$scope','$http','$routeParams','$cookies',
-			    function($scope,$http,$routeParams,$cookies){
+			    ['$scope','$http','$routeParams','$cookies','$firebase',
+			     function($scope,$http,$routeParams,$cookies,$firebase){
 				console.log($cookies);
+				// ここはえらーしょりなくてもいいかも
 				$scope.roomID = $routeParams.roomID;
-//				// えらーしょりひつよう
-				// User Add してないなら；／／／
+				// Serviceにかくべき。
+				var ref = new Firebase("https://mytestapp-samui13.firebaseio.com/rooms/"+$scope.roomID);
+				var angdb = $firebase(ref);
+				$scope.users = angdb.$child("members");
+				$scope.theme = angdb.$child('theme');
+				$scope.postits = angdb.$child('postits');
+				$scope.gropus = angdb.$child('groups');
+				 // えらーしょりひつよう
+				 // User Add してないなら；／／／
 				$scope.user =  $cookies[$scope.roomID+'.name'];
 				if(typeof $scope.roomID !== 'undefined'){
 				    //redirect
 				    
 				}
 				DB.connectRoom($scope.roomID);
-				$scope.theme = 'None';
+				
+				//$scope.theme = 'None';
 				$scope.addPostIt = function(){
 				    userUI.addPostIt($scope.roomID);
 				}
@@ -37,15 +46,24 @@ stormControllers.controller('StormCtrl',
 				}
 
 				angular.element(document).ready(function() {
-				    testData();
+				    //testData();
 				});
-				
-				$scope.$watch(function(){console.log('watching');return DB.data.roomTheme;},function(newVal,oldVal){
-				    // 監視してくれない
-				    //console.log(DB.data.roomTheme);
-				    //console.log(DB.data.roomTheme);
-				    //console.log(newVal,oldVal);
-				    $scope.theme = DB.data.roomTheme;
+				$scope.func = function(){
+				    $scope.test = DB.test;
+				    //DB.data.roomTheme = '';
+				}
+				/*
+				$scope.$watch(function(){
+				    return DB.test;
+				},function(newVal,oldAval){
+				    console.log('Called');
+				    console.log(newVal,oldAval);
+				});
+				*/
+				$scope.$watch(function(){
+				    return DB.data.roomTheme;
+				},function(newVal,oldVal){
+				    //$scope.theme = DB.data.roomTheme;
 				});
 
 			    }]);

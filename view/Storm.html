@@ -1,26 +1,46 @@
-{{roomID}}
-{{theme}}
+{{roomID}}<br />
 {{user}}
-
-<script src="./lib/jquery-ui.js"></script>
-<script src="./lib/mustache.js"></script>
-<script src="./js/userUI.js"></script>
-<script src="./js/postit.js"></script>
-<script src="./js/group.js"></script>
-<script src="./js/test.js"></script>
-<link rel="stylesheet" href="./css/breth.css"></link>
+<br />
 <div class="container">
-  <h2>{{user}}</h2>asd
+  <h2 ng-show="theme">お題:{{theme.$value}}</h2>
+
   <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-3">
       <ul>
 	<li><a href ng-click="addPostIt()">CreatePostIt</a></li>
 	<li><a href ng-click="addGroup()">CreateGroup</a></li>
 	<li><a href ng-click="viewSheet()">view Sheet</a></li>
+	<li><a href ng-click="func()">TEST</a></li>
       </ul>
+      <div id="Users">
+	<ul ng-repeat="user in users">
+	  <h3>Users List</h3>
+	  <li>
+	    <em>{{user.color}}</em>:{{user.owner_flag}} {{user.name}}
+	  </li>
+	</ul>
+      </div>
+      
+
     </div>
-    <div class="col-md-10">
-      <div id="brestField"></div>
+    <div class="col-md-9">
+      <div id="brestField">
+	<div ng-repeat="postit in postits">
+	  <div id="{{postit.created_id}}" class="draggablePostIt" style="position:absolute;">
+	    <div class="content" contenteditable="true">
+	      {{postit.text}}AA
+	    </div>
+	  </div>
+	</div>
+
+	<div ng-repeat="group in gropus">
+	  <div id="{{group.id}}" class="group droppableGroup draggableGroup" style="">
+	    <div class="footer" contenteditable="true">
+	      <h3>{{group.tag}}.</h3>
+	    </div>
+	  </div>
+	</div>
+      </div>
       <div id="sheet"></div>
     </div>
   </div>

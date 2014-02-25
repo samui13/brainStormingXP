@@ -1,4 +1,5 @@
 var stormApp = angular.module('stormApp',[
+    'firebase',
     'ngRoute',
     'ngCookies',
     'stormControllers'

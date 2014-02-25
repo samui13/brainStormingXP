@@ -1,7 +1,10 @@
 DB = {
-    data:{},
+    data:{
+	roomTheme:'None',
+    },
     order:{},
     registFN:{},
+    test:'AAAAA',
 };
 DB.init = function(){
     this.connect = new Firebase('https://mytestapp-samui13.firebaseio.com/');
@@ -19,16 +22,26 @@ DB.connectRoom = function(roomID){
     this.data.postitsRef = room.child('postits');
     this.data.groupsRef = room.child('groups');
     console.log(this.data.roomRef);
-    this.data.roomRef.child('theme').once('value',function(snapshot){
+
+    //DB.registFN.theme();
+    //DB.registFN.members();
+    //DB.registFN.postits();
+    //DB.registFN.groups();
+};
+DB.registFN.theme = function(){
+    DB.data.roomRef.child('theme').once('value',function(snapshot){
 	var title = snapshot.val();
 	DB.data.roomTheme = title;
+	console.log(DB.data.roomTheme);
     });
-    this.data.membersRef.on('child_added',function(snapshot){
+}
+DB.registFN.members = function(){
+    // もうつかってないAngularにまかせてる。
+    DB.data.membersRef.on('child_added',function(snapshot){
 	var member = snapshot.val();
     });
-    DB.registFN.postits();
-    DB.registFN.groups();
-};
+}
+
 DB.registFN.groups = function(){
     DB.data.groupsRef.on('child_added',function(snapshot){
         var group = snapshot.val();
@@ -41,9 +54,6 @@ DB.registFN.groups = function(){
 	    obj.id = snapshot.name();
 	    obj.render($("#brestField"));
 	    obj.setEnv();
-            //element = document.getElementById(snapshot.name());
-            //element.innerHTML = group.name;
-            //element style pos_x,pos_y
         }
     });
 };
