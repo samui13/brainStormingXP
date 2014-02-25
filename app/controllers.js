@@ -11,6 +11,7 @@ stormControllers.controller('StormAddUserCtrl',
 				    
 				}
 			    }]);
+// brain/:hash
 stormControllers.controller('StormCtrl',
 			    ['$scope','$http','$routeParams','$cookies',
 			    function($scope,$http,$routeParams,$cookies){
@@ -25,7 +26,20 @@ stormControllers.controller('StormCtrl',
 				}
 				DB.connectRoom($scope.roomID);
 				$scope.theme = 'None';
+				$scope.addPostIt = function(){
+				    userUI.addPostIt();
+				}
+				$scope.addGroup = function(){
+				    userUI.addGroup();
+				}
+				$scope.viewSheet = function(){
+				    userUI.viewSheet()
+				}
 
+				angular.element(document).ready(function() {
+				    testData();
+				});
+				
 				$scope.$watch(function(){console.log('watching');return DB.data.roomTheme;},function(newVal,oldVal){
 				    // 監視してくれない
 				    //console.log(DB.data.roomTheme);
