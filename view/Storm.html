@@ -1,2 +1,27 @@
 {{roomID}}
+{{theme}}
+{{user}}
 
+<script src="./lib/jquery-ui.js"></script>
+<script src="./lib/mustache.js"></script>
+<script src="./js/userUI.js"></script>
+<script src="./js/postit.js"></script>
+<script src="./js/group.js"></script>
+<script src="./js/test.js"></script>
+<link rel="stylesheet" href="./css/breth.css"></link>
+<div class="container">
+  <h2>{{user}}</h2>asd
+  <div class="row">
+    <div class="col-md-2">
+      <ul>
+	<li><a href="#" onclick="userUI.addPostIt();">CreatePostIt</a></li>
+	<li><a href="#" onclick="userUI.addGroup();">CreateGroup</a></li>
+	<li><a href="#" onclick="userUI.viewSheet();">view Sheet</a></li>
+      </ul>
+    </div>
+    <div class="col-md-10">
+      <div id="brestField"></div>
+      <div id="sheet"></div>
+    </div>
+  </div>
+</div>

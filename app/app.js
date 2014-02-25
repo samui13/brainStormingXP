@@ -14,6 +14,10 @@ stormApp.config(['$routeProvider',
 		templateUrl:'view/Storm.html',
 		controller: 'StormCtrl',
 	    }).
+	    when('/:roomID',{
+		templateUrl:'view/addUser.html',
+		controller: 'StormAddUserCtrl',
+	    }).
 	    otherwise({
 		redirectTo:'/'
 	    });
