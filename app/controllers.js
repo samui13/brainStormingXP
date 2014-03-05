@@ -72,14 +72,16 @@ storm.controller('StormCtrl',
 		      }
 		      
 		      angular.element(document).ready(function() {
+			  console.log(PostIts.draggableOpt);
 			  // Postitの処理
 			  $(document).on('mouseover','.draggablePostIt',function(e){
 			      if(!$(e.target).hasClass('content')){
-				  console.log(this);
+				  $(this).draggable(PostIts.draggableOpt);
+				  $(this).draggable('enable');
 			      }
 			  });
 			  $(document).on('mouseout','.draggablePostIt',function(e){
-			      console.log(this);
+			      $(this).draggable('disable');
 			  });
 			  
 			  $(document).on('keyup','.draggablePostIt',function(e){
@@ -101,7 +103,8 @@ storm.controller('StormCtrl',
 				  finally(function(){
 				      $scope.groups.$on();
 				  });
-			  });			  
+			  });
+			  
 		      });
 		      
 		      $scope.func = function(){
