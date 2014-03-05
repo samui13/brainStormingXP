@@ -25,21 +25,14 @@
     </div>
     <div class="col-md-9">
       <div id="brestField">
-	<div ng-repeat="postit in postits">
-	  <div id="{{postit.created_id}}" class="draggablePostIt" style="position:absolute;">
-	    <div class="content" contenteditable="true">
-	      {{postit.text}}AA
-	    </div>
-	  </div>
+	<div ng-repeat="postit in postits | orderByPriority" id="{{postit.$id}}" class="draggablePostIt" style="position:absolute;">
+	  <div class="content" contenteditable="true" ng-model="postit.text">{{postit.text}}</div>
 	</div>
-
-	<div ng-repeat="group in gropus">
-	  <div id="{{group.id}}" class="group droppableGroup draggableGroup" style="">
+	  <div class="group droppableGroup draggableGroup" style="" ng-repeat="group in groups | orderByPriority" id="{{group.$id}}">
 	    <div class="footer" contenteditable="true">
-	      <h3>{{group.tag}}.</h3>
+	      <h3>{{group.text}}</h3>
 	    </div>
 	  </div>
-	</div>
       </div>
       <div id="sheet"></div>
     </div>
