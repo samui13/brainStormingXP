@@ -78,12 +78,52 @@ storm.controller('StormCtrl',
 			      if(!$(e.target).hasClass('content')){
 				  $(this).draggable(PostIts.draggableOpt);
 				  $(this).draggable('enable');
+				  var id = $(this).get(0).id;
+				  var postit = $scope.postits.$child(id);
+				  var posx =  postit.$child('pos_x');
+				  var posy =  postit.$child('pos_y');
+				  $scope.postits.$off();
+				  var offset = $(this).offset();
+
+				  posx.$set(offset.left).
+				      finally(function(){
+					  posy.$set(offset.top).finally(function(){
+					      postit.$on();
+					  })
+				      });
 			      }
 			  });
+			  
 			  $(document).on('mouseout','.draggablePostIt',function(e){
 			      $(this).draggable('disable');
 			  });
 			  
+			  // Group
+			  $(document).on('mouseover','.draggableGroup',function(e){
+			      if(!$(e.target).hasClass('content')){
+				  $(this).draggable(Groups.draggableOpt);
+				  $(this).draggable('enable');
+
+				  var id = $(this).get(0).id;
+				  var group = $scope.groups.$child(id);
+				  var posx =  group.$child('pos_x');
+				  var posy =  group.$child('pos_y');
+				  $scope.groups.$off();
+				  var offset = $(this).offset();
+				  posx.$set(offset.left).
+				      finally(function(){
+					  posy.$set(offset.top).
+					      finally(function(){
+						  group.$on();
+					      })
+						  });
+			      }
+			  });
+			  $(document).on('mouseout','.draggableGroup',function(e){
+			      $(this).draggable('disable');
+			  });
+
+
 			  $(document).on('keyup','.draggablePostIt',function(e){
 			      var id = $(this).get(0).id;
 			      var postit = $scope.postits.$child(id);
