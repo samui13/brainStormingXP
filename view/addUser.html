@@ -6,11 +6,27 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">色の選択</h4>
       </div>
-      <div class="modal-body" style="padding-bottom:100px;">
-	<div class="row" ng-repeat="colorl in colors" style="margin-top:{{$index*80}}px;">
-	  <a href  ng-repeat="color in colorl" ng-click="choiceColor(color)">
-	    <span style="width:70px;height:70px;margin-left:{{10+$index*100}}px;position:absolute;background-color:{{color}};border: solid 5px #000;">{{color}}</span>
-	  </a>
+      <div class="modal-body">
+	<div style="margin-bottom:{{colors.length*60}}px;">
+	  <div class="row" ng-repeat="colorl in colors" style="margin-top:{{$index*80}}px;">
+	    <a href  ng-repeat="color in colorl" ng-click="choiceColor(color)"  data-dismiss="modal">
+	      <span style="width:70px;height:70px;margin-left:{{10+$index*100}}px;position:absolute;background-color:{{color}};border: solid 5px #000;"></span>
+	    </a>
+	  </div>
+	</div>
+	<div class="row">
+	  <div class="col-md-2">
+	    <div style="padding-bottom:60px;">
+	      <a href ng-click="choiceColor(makecolor)"  data-dismiss="modal">
+		<span style="width:70px;height:70px;margin-left:-5px;position:absolute;background-color:{{makecolor}};border: solid 5px #000;"></span>
+	      </a>
+	    </div>
+	  </div>
+	  <div class="col-md-10">
+	    <input type="range" max="255" min="0" ng-model="colorR" value="100"/><br />
+	    <input type="range" max="255" min="0" ng-model="colorG" value="100"/><br />
+	    <input type="range" max="255" min="0" ng-model="colorB" value="100"/>
+	  </div>
 	</div>
       </div>
       <div class="modal-footer">

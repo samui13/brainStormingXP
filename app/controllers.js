@@ -29,11 +29,29 @@ storm.controller('StormAddUserCtrl',
 		  function($scope,$location,$routeParams,$cookies,$cookieStore,DB){
 		      $scope.roomID = $routeParams.roomID;
 		      $scope.ccolor = '#00FF00';
-		      $scope.colors = [['#00FF00','#008080','#0068b7','#00a7db'],
-				      ['#999999','#fef4f4']];
+		      $scope.colors = [['#00FF00','#008080','#0068b7','#00a7db','#432f2f'],
+				      ['#999999','#fef4f4','#c85179','#dccb18','#82ae46']];
+		      $scope.makecolor='#FF0000';
 		      $scope.choiceColor = function(color){
 			  $scope.ccolor = color;
 		      };
+		      $scope.colorR = 100;
+		      $scope.colorG = 100;
+		      $scope.colorB = 100;
+		      var changeColor = function(){
+			  // 今後修正するべき
+			  $scope.makecolor = 'rgb('+$scope.colorR+','+$scope.colorG+','+$scope.colorB+')';
+		      };
+		      $scope.$watch('colorR',function(){
+			  changeColor();
+		      });
+		      $scope.$watch('colorG',function(){
+			  changeColor();
+		      });
+		      $scope.$watch('colorB',function(){
+			  changeColor();
+		      });
+
 		      $scope.submit = function(){
 			  $cookies[$scope.roomID+'.name'] = this.content;
 			  
