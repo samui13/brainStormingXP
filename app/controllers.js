@@ -100,11 +100,12 @@ storm.controller('StormCtrl',
 		      $scope.viewSheet = function(){
 			  //userUI.viewSheet()
 		      }
-		      $scope.round = Math.round;
+		      $scope.round = Math.floor;
 		      $scope.count = 5*60;
-		      
+
 		      $scope.onTimeout = function(){
 			  $scope.count--;
+			  console.log($scope.count)
 			  if ($scope.count >= 0)
 			      mytimeout = $timeout($scope.onTimeout,1000);
 			  else
