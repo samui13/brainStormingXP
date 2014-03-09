@@ -46,8 +46,8 @@ storm.controller('StormAddUserCtrl',
 		  }]);
 // brain/:hash
 storm.controller('StormCtrl',
-		 ['$scope','$location','$http','$routeParams','$cookies','$firebase','RoomService',
-		  function($scope,$location,$http,$routeParams,$cookies,$firebase,DB){
+		 ['$scope','$location','$http','$routeParams','$cookies','$firebase','RoomService','$timeout',
+		  function($scope,$location,$http,$routeParams,$cookies,$firebase,DB,$timeout){
 		      console.log($cookies);
 		      // ここはえらーしょりなくてもいいかも
 		      $scope.roomID = $routeParams.roomID;
@@ -100,7 +100,30 @@ storm.controller('StormCtrl',
 		      $scope.viewSheet = function(){
 			  //userUI.viewSheet()
 		      }
-		      $scope.count = 5;
+		      $scope.round = Math.round;
+		      $scope.count = 5*60;
+		      
+		      $scope.onTimeout = function(){
+			  $scope.count--;
+			  if ($scope.count >= 0)
+			      mytimeout = $timeout($scope.onTimeout,1000);
+			  else
+			      $timeout.cancel(mytimeout);
+		      }
+
+		      $scope.timerStart = function(){
+			  var mytimeout = $timeout($scope.onTimeout,1000);
+		      }
+		      $scope.timerDecrease = function(){
+			  $scope.count-=60;
+		      }
+		      $scope.timerIncrease = function(){
+			  $scope.count+=60;
+		      }
+		      $scope.stop = function(){
+			  $timeout.cancel(mytimeout);
+		      }
+		      
 		      $scope.owner = $cookies[$scope.roomID+'.flag'];
 		      ///$scope.owner = 'false';
 		      angular.element(document).ready(function() {

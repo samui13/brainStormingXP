@@ -30,14 +30,13 @@
     </div>
     <div class="col-md-2 UI">
       <div ng-if="owner">
-	  <a href ><span class="glyphicon glyphicon-chevron-left"></span></a>
-	  <a href ><span class="glyphicon glyphicon-play"></span></a>
-      
-
-	  <a href ><span class="glyphicon glyphicon-chevron-right"></span></a>
+	  <a href ng-click="timerDecrease()"><span class="glyphicon glyphicon-chevron-left"></span></a>
+	  <a href ng-click="timerStart()"><span class="glyphicon glyphicon-play"></span></a>
+	  
+	  <a href ng-click="timerIncrease()"><span class="glyphicon glyphicon-chevron-right"></span></a>
       </div>
       <div class="">
-	<span style="padding-left:12px">{{count}}分</span>
+	<span style="padding-left:12px">{{round(count/60)}}:{{count%60}}</span>
       </div>
 
     </div>    
