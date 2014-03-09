@@ -28,7 +28,12 @@ storm.controller('StormAddUserCtrl',
 		 ['$scope','$location','$routeParams','$cookies','$cookieStore','RoomService',
 		  function($scope,$location,$routeParams,$cookies,$cookieStore,DB){
 		      $scope.roomID = $routeParams.roomID;
-		      
+		      $scope.ccolor = '#00FF00';
+		      $scope.colors = [['#00FF00','#008080','#0068b7','#00a7db'],
+				      ['#999999','#fef4f4']];
+		      $scope.choiceColor = function(color){
+			  $scope.ccolor = color;
+		      };
 		      $scope.submit = function(){
 			  $cookies[$scope.roomID+'.name'] = this.content;
 			  
@@ -44,7 +49,7 @@ storm.controller('StormAddUserCtrl',
 			      $cookies[$scope.roomID+'.member_id'] = d.name();
 			  });
 			  console.log(data);
-			  $cookies[$scope.roomID+'.color'] = '#00FF00';
+			  $cookies[$scope.roomID+'.color'] = $scope.ccolor;
 			  $cookies[$scope.roomID+'.flag'] = 'false';
 			  $location.path("brain/"+$scope.roomID);
 		      }
