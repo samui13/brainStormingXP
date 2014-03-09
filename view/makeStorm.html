@@ -1,15 +1,18 @@
+
 <link rel="stylesheet" href="./css/index.css"></link>
 <link rel="stylesheet" href="./css/screen.css"></link>
 
-<div class="container">
-  <div href="#" id="IESupport" class="starburst2">
-    <span><span><span><br>IE対応！</span></span></span></div>
-    <h1 class="title">ブレストツクールXP</h1>
-    <h2 class="subtitle">みんなのアイデア死ぬ前に</h2>
 
-    <form ng-submit="submit()">
-      <input type="text" name="theme" class="theme" id="theme" ng-model="theme" placeholder="ブレストのお題を入れてね♩" value="DefaultTheme" /><br>
-        <input type="text" name="username" class="username" id="owner_name" ng-model="name" placeholder="名前を入力！" value="DefaultName"  /><br>
-      <input type="submit" class="button" id="create_button" value="スタート"/>
+
+<div class="top">
+  <div class="container">
+    <h1 class="main"><img src="./img/main.png" alt="ブレストツクールXP" /></h1>
+    <form name="form" ng-submit="submit()">
+      <img class="form_ttl" src="./img/ttl_theme.png">
+      <input type="text" name="theme" class="theme form_input" id="theme" ng-model="theme" placeholder="ブレストのお題を入れてね♩" value="DefaultTheme" /><br>
+      <img class="form_ttl" src="./img/ttl_name.png">
+      <input type="text" name="username" class="username form_input" id="owner_name" ng-model="name" placeholder="名前を入力！" value="DefaultName"  /><br>
+      <input type="submit" class="button" id="create_button" value=""/>
     </form>
+  </div>
 </div>
