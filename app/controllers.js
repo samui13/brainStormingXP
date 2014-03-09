@@ -31,6 +31,7 @@ storm.controller('StormAddUserCtrl',
 		      
 		      $scope.submit = function(){
 			  $cookies[$scope.roomID+'.name'] = this.content;
+			  
 			  var ref = DB.getRef();
 			  var db = ref.$child($scope.roomID);
 			  var members = db.$child('members');
@@ -39,8 +40,12 @@ storm.controller('StormAddUserCtrl',
 			      color:'#00FF00',
 			      owner_flag:'false',
 			  }).then(function(d){
-			      console.log(d);
+			      console.log(d.name());
+			      $cookies[$scope.roomID+'.member_id'] = d.name();
 			  });
+			  console.log(data);
+			  $cookies[$scope.roomID+'.color'] = '#00FF00';
+			  $cookies[$scope.roomID+'.flag'] = 'false';
 			  $location.path("brain/"+$scope.roomID);
 		      }
 		  }]);
@@ -75,7 +80,8 @@ storm.controller('StormCtrl',
 			      text:'New Postit',
 			      pos_x : 0,
 			      pos_y : 0,
-			      color:'#FFFFFF',
+			      //color: '#FFFFFF',
+			      color: $cookies[$scope.roomID+'.color'],
 			      created_id:'',
 			      holding_id:'',
 			  });
