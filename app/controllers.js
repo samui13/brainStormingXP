@@ -191,11 +191,13 @@ storm.controller('StormCtrl',
 			  
 			  // Group
 			  $(document).on('mouseover','.draggableGroup',function(e){
-			      $(this).droppable(Groups.droppableOpt);
-			      if(!$(e.target).hasClass('content')){
+			      
+			      if($(e.target).hasClass('group')){
+				  //
+				  $(this).droppable(Groups.droppableOpt);
 				  $(this).draggable(Groups.draggableOpt);
 				  $(this).draggable('enable');
-				  
+				  console.log($(e.target).hasClass('group'));
 				  var id = $(this).get(0).id;
 				  var group = $scope.groups.$child(id);
 				  var offset = $(this).offset();
