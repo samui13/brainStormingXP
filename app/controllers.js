@@ -127,6 +127,7 @@ storm.controller('StormCtrl',
 			  
 			  // Group
 			  $(document).on('mouseover','.draggableGroup',function(e){
+			      $(this).droppable(Groups.droppableOpt);
 			      if(!$(e.target).hasClass('content')){
 				  $(this).draggable(Groups.draggableOpt);
 				  $(this).draggable('enable');
