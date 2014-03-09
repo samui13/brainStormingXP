@@ -104,8 +104,10 @@ storm.controller('StormCtrl',
 		      $scope.count = 5*60;
 
 		      $scope.onTimeout = function(){
+			  // 2度おし防止
+			  if(typeof mytimeout !== 'undefined')
+			      $timeout.cancel(mytimeout);
 			  $scope.count--;
-			  console.log($scope.count)
 			  if ($scope.count >= 0)
 			      mytimeout = $timeout($scope.onTimeout,1000);
 			  else
@@ -116,13 +118,22 @@ storm.controller('StormCtrl',
 			  var mytimeout = $timeout($scope.onTimeout,1000);
 		      }
 		      $scope.timerDecrease = function(){
+			  if(typeof mytimeout !== 'undefined' && $timeout.cancel(mytimeout) == true){
+			      $scope.timerStart();
+			      return;
+			  }
 			  $scope.count-=60;
 		      }
 		      $scope.timerIncrease = function(){
+			  if(typeof mytimeout !== 'undefined' && $timeout.cancel(mytimeout) == true){
+			      $scope.timerStart();
+			      return;
+			  }
 			  $scope.count+=60;
 		      }
-		      $scope.stop = function(){
+		      $scope.timerStop = function(){
 			  $timeout.cancel(mytimeout);
+
 		      }
 		      
 		      $scope.owner = $cookies[$scope.roomID+'.flag'];
