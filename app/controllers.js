@@ -41,9 +41,7 @@ storm.controller('StormAddUserCtrl',
 			  }).then(function(d){
 			      console.log(d);
 			  });
-			  
-			  //$location.path("brain/"+$scope.roomID);
-			  
+			  $location.path("brain/"+$scope.roomID);
 		      }
 		  }]);
 // brain/:hash

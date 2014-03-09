@@ -1,6 +1,11 @@
-<div class="container">
-  <form ng-submit="submit()">
-    <input type="text" name="content" ng-model="content" id="content" value="">
-    <input type="submit" name="send" value="追加">
-  </form>
+<link rel="stylesheet" href="./css/index.css"></link>
+<div class="top">
+  <div class="container">
+    <h1 class="main"><img src="./img/main.png" alt="ブレストツクールXP" /></h1>
+    <form ng-submit="submit()">
+      <img class="form_ttl" src="./img/ttl_name.png">
+      <input type="text" name="content" ng-model="content" id="content" value="" class="form_input username"><br />
+      <input type="submit" class="button" id="create_button" value=""/>
+    </form>
+  </div>
 </div>
