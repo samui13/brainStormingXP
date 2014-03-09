@@ -35,11 +35,14 @@
 
 #brestField{
     z-index:1;
-    background-color: #A0A0A0;
+    //background-color: #A0A0A0;
+    //background-color: #000000;
+    background-image: url("../img/bg_bs.png");
+    background-repeat: repeat;   
     // けせ
     width:1000px;
-    //height:1000px;
-    margin-top: -100px;
+    height:1000px;
+    //margin-top: -100px;
 }
 #brestField .draggablePostIt{
     z-index:4;
