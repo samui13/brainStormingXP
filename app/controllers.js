@@ -102,7 +102,9 @@ storm.controller('StormCtrl',
 		      $scope.viewSheet = function(){
 			  //userUI.viewSheet()
 		      }
-		      
+		      $scope.count = 5;
+		      $scope.owner = $cookies[$scope.roomID+'.flag'];
+		      ///$scope.owner = 'false';
 		      angular.element(document).ready(function() {
 			  // Postitの処理
 			  $(document).on('mouseover','.draggablePostIt',function(e){

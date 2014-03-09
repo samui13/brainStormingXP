@@ -28,7 +28,18 @@
       <a href ng-click="addPostIt()"><span class="glyphicon glyphicon-plus"></span></a>
       <a href ng-click="addGroup()"><span class="glyphicon glyphicon-file"></span></a>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 UI">
+      <div ng-if="owner">
+	  <a href ><span class="glyphicon glyphicon-chevron-left"></span></a>
+	  <a href ><span class="glyphicon glyphicon-play"></span></a>
+      
+
+	  <a href ><span class="glyphicon glyphicon-chevron-right"></span></a>
+      </div>
+      <div class="">
+	<span style="padding-left:12px">{{count}}分</span>
+      </div>
+
     </div>    
   </div>
 </div>
