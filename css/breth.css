@@ -1,32 +1,80 @@
+#header{
+    background-color: #000000;
+    color: #000000;
+    padding-bottom:4px;
+}
+#header > .row{
+    background-color: #FFCC00;
+    color: #FFFFFF;
+}
+#header a{/*リンクされた文字*/
+    color: #000000;
+    font-style:normal;
+}
+#header > a:link {/*未訪問のリンク*/
+    color:#000000;
+    font-style:normal;
+}
+#header a:visited {/*訪問後のリンク*/
+    color:#000000;
+}
+#header a:hover {/*マウスをのせたとき*/
+    color:#000000;
+    font-style:normal;
+}
+#header > a:active {/*クリック中*/
+    text-decoration:none;
+}
+#header > a, a:visited{
+    color: #000000;
+}
+
+#header .UI{
+    padding-top: 23px;
+}
+
 #brestField{
     z-index:1;
-    background-color: #FF0000;
+    background-color: #A0A0A0;
     // けせ
     width:1000px;
-    height:1000px;
+    //height:1000px;
+    margin-top: -100px;
 }
 #brestField .draggablePostIt{
-    z-index:3;
-    background-color: #00FF00;
-    //position:absolute;
+    z-index:4;
+    //#FF3366;
+    //#993300;
+    background-color: #993333;
+    border: solid 3px #000000;
     width:250px;
 }
 .draggablePostIt .content{
-    margin-right:40px;
-    background-color:#B0B0B0;
+    margin-left:40px;
+    //background-color:#A0A0A0;
+    background-color:#FFFFFF;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 3px;
+    font-size:150%;
     height:100%;
 }
 #brestField .group .footer{
-    background-color:#B0EFB0;
-    padding-top:0;
+    //background-color:#B0EFB0;
+    background-color:#ffffff;
+    border-bottom: dashed 3px #000000;
+    padding-top: 4px;
+    padding-left: 4px;
 }
 .footer h3{
     margin-top:0px;
 }
 #brestField .group{
-    z-index:3;
+    z-index:2;
     width:300px;
     height:300px;
-    background-color:#B0B0B0;
+    //background-color:#A0A0A0;
+    border: dashed 3px #000000;
+    background-color:#FAFAFA;
     overflow:auto;
 }

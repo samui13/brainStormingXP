@@ -2,7 +2,7 @@ Groups = {};
 Groups.list = [];
 Groups.fn = {};
 Groups.droggableOpt = {
-    zIndex:2,
+    zIndex:3,
 }
 Groups.droppableOpt = {
     drop:function(e,ui){

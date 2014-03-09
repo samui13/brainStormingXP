@@ -1,33 +1,65 @@
 if(typeof stormControllers === 'undefined')
     var storm = angular.module('stormControllers',[]);
 
-storm.factory("RoomService",function(){
-    var ref = new Firebase("https://localbrainst-samui13.firebaseio.com/rooms/"+$scope.roomID);
-    
-});
+storm.factory("RoomService",['$firebase',function($firebase){
+    var ref = new Firebase("https://localbrainst-samui13.firebaseio.com/");
+    var DB = $firebase(ref);
+    var room = DB.$child('rooms');
+    return {
+	setPos : function(obj,x,y,objs){
+	    var posx =  obj.$child('pos_x');
+	    var posy =  obj.$child('pos_y');
+	    objs.$off();
+	    posx.$set(x).
+		finally(function(){
+		    posy.$set(y).finally(function(){
+			objs.$on();
+		    });
+		    objs.$on();
+		});
+	},
+	getRef: function(){
+	    return room;
+	}
+    };
+}]);
 
 storm.controller('StormAddUserCtrl',
-		 ['$scope','$location','$routeParams','$cookies','$cookieStore',
-		  function($scope,$location,$routeParams,$cookies,$cookieStore){
-		      $scope.title = 'TEST'
+		 ['$scope','$location','$routeParams','$cookies','$cookieStore','RoomService',
+		  function($scope,$location,$routeParams,$cookies,$cookieStore,DB){
 		      $scope.roomID = $routeParams.roomID;
 		      
 		      $scope.submit = function(){
 			  $cookies[$scope.roomID+'.name'] = this.content;
-			  $location.path("brain/"+$scope.roomID);
+			  var ref = DB.getRef();
+			  var db = ref.$child($scope.roomID);
+			  var members = db.$child('members');
+			  var data = members.$add({
+			      name : this.content,
+			      color:'#00FF00',
+			      owner_flag:'false',
+			  }).then(function(d){
+			      console.log(d);
+			  });
+			  
+			  //$location.path("brain/"+$scope.roomID);
 			  
 		      }
 		  }]);
 // brain/:hash
 storm.controller('StormCtrl',
-		 ['$scope','$http','$routeParams','$cookies','$firebase',
-		  function($scope,$http,$routeParams,$cookies,$firebase){
+		 ['$scope','$location','$http','$routeParams','$cookies','$firebase','RoomService',
+		  function($scope,$location,$http,$routeParams,$cookies,$firebase,DB){
 		      console.log($cookies);
 		      // ここはえらーしょりなくてもいいかも
 		      $scope.roomID = $routeParams.roomID;
+		      if(!$cookies[$scope.roomID+'.name']){
+			  console.log("Need Login");
+			  $location.path("/login/"+$scope.roomID);
+		      }
 		      // Serviceにかくべき。
-		      var ref = new Firebase("https://localbrainst-samui13.firebaseio.com/rooms/"+$scope.roomID);
-		      var angdb = $firebase(ref);
+		      var room = DB.getRef();
+		      var angdb = room.$child($scope.roomID);
 		      $scope.users = angdb.$child("members");
 		      $scope.theme = angdb.$child('theme');
 		      $scope.postits = angdb.$child('postits');
@@ -37,10 +69,10 @@ storm.controller('StormCtrl',
 		      $scope.user =  $cookies[$scope.roomID+'.name'];
 		      if(typeof $scope.roomID !== 'undefined'){
 			  //redirect
-			  
 		      }
 		      //$scope.theme = 'None';
 		      $scope.addPostIt = function(){
+			  $scope.postits = angdb.$child('postits');
 			  var newPostit = $scope.postits.$add({
 			      text:'New Postit',
 			      pos_x : 0,
@@ -49,11 +81,11 @@ storm.controller('StormCtrl',
 			      created_id:'',
 			      holding_id:'',
 			  });
-			  console.log(newPostit);
 			  return newPostit;
 			  //userUI.addPostIt($scope.roomID);
 		      }
 		      $scope.addGroup = function(){
+			  $scope.groups = angdb.$child('groups');
 			  var newGroup = $scope.groups.$add({
 			      pos_x : 0,
 			      pos_y : 0,
@@ -72,7 +104,6 @@ storm.controller('StormCtrl',
 		      }
 		      
 		      angular.element(document).ready(function() {
-			  console.log(PostIts.draggableOpt);
 			  // Postitの処理
 			  $(document).on('mouseover','.draggablePostIt',function(e){
 			      if(!$(e.target).hasClass('content')){
@@ -80,22 +111,18 @@ storm.controller('StormCtrl',
 				  $(this).draggable('enable');
 				  var id = $(this).get(0).id;
 				  var postit = $scope.postits.$child(id);
-				  var posx =  postit.$child('pos_x');
-				  var posy =  postit.$child('pos_y');
-				  $scope.postits.$off();
 				  var offset = $(this).offset();
-
-				  posx.$set(offset.left).
-				      finally(function(){
-					  posy.$set(offset.top).finally(function(){
-					      postit.$on();
-					  })
-				      });
+				  DB.setPos(postit,offset.left,offset.top,$scope.postits);
 			      }
 			  });
 			  
 			  $(document).on('mouseout','.draggablePostIt',function(e){
+			      $(this).draggable(PostIts.draggableOpt);
 			      $(this).draggable('disable');
+			      var id = $(this).get(0).id;
+			      var postit = $scope.postits.$child(id);
+			      var offset = $(this).offset();
+			      DB.setPos(postit,offset.left,offset.top,$scope.postits);
 			  });
 			  
 			  // Group
@@ -103,24 +130,21 @@ storm.controller('StormCtrl',
 			      if(!$(e.target).hasClass('content')){
 				  $(this).draggable(Groups.draggableOpt);
 				  $(this).draggable('enable');
-
+				  
 				  var id = $(this).get(0).id;
 				  var group = $scope.groups.$child(id);
-				  var posx =  group.$child('pos_x');
-				  var posy =  group.$child('pos_y');
-				  $scope.groups.$off();
 				  var offset = $(this).offset();
-				  posx.$set(offset.left).
-				      finally(function(){
-					  posy.$set(offset.top).
-					      finally(function(){
-						  group.$on();
-					      })
-						  });
+				  DB.setPos(group,offset.left,offset.top,$scope.groups);
 			      }
 			  });
 			  $(document).on('mouseout','.draggableGroup',function(e){
+			      $(this).draggable(Groups.draggableOpt);
 			      $(this).draggable('disable');
+			      var id = $(this).get(0).id;
+			      var group = $scope.groups.$child(id);
+			      var offset = $(this).offset();
+			      DB.setPos(group,offset.left,offset.top,$scope.groups);
+
 			  });
 
 
@@ -157,7 +181,7 @@ storm.controller('StormMakeCtrl',
 		  function($scope,$http,$cookies,$location,$firebase){
 		      $scope.text = 'TEXT';
 		      $scope.abs = 'ASDFASF';
-		      $cookies.abs = 'gs';
+		      //		      $cookies.abs = 'gs';
 		      $scope.submit = function(){
 
 			  var ref = new Firebase("https://localbrainst-samui13.firebaseio.com/rooms/");				     
@@ -168,7 +192,7 @@ storm.controller('StormMakeCtrl',
 			  //rooms.child(room.name);
 			  var memberData = room.child('members').push({
 			      name:this.name,
-			      color:'test',
+			      color:'#FF0000',
 			      owner_flag:'true'
 			  });
 			  var groupsRef = room.child('groups');
@@ -180,11 +204,10 @@ storm.controller('StormMakeCtrl',
 			  
 			  //this.text
 			  //var data = userUI.createRoom(this.theme,this.name);
-
 			  $cookies[data.ID+'.name'] = this.name;
 			  $cookies[data.ID+'.member_id'] = data.member_id;
 			  $cookies[data.ID+'.title'] = 'test';
-			  $cookies[data.ID+'.color'] = 'test';
+			  $cookies[data.ID+'.color'] = '#FF0000';
 			  $cookies[data.ID+'.flag'] = 'true';
 			  $location.path("/brain/"+data.ID);
 

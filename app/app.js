@@ -15,7 +15,7 @@ stormApp.config(['$routeProvider',
 		templateUrl:'view/Storm.html',
 		controller: 'StormCtrl',
 	    }).
-	    when('/:roomID',{
+	    when('/login/:roomID',{
 		templateUrl:'view/addUser.html',
 		controller: 'StormAddUserCtrl',
 	    }).
