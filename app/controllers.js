@@ -1,5 +1,7 @@
-if(typeof stormControllers === 'undefined')
-    var storm = angular.module('stormControllers',[]);
+if(typeof stormControllers === 'undefined'){
+    var storm = angular.module('stormControllers',['stormFilter']);
+}
+
 
 storm.factory("RoomService",['$firebase',function($firebase){
     var ref = new Firebase("https://localbrainst-samui13.firebaseio.com/");
@@ -60,7 +62,7 @@ storm.controller('StormAddUserCtrl',
 			  var members = db.$child('members');
 			  var data = members.$add({
 			      name : this.content,
-			      color:'#00FF00',
+			      color:$scope.ccolor,
 			      owner_flag:'false',
 			  }).then(function(d){
 			      console.log(d.name());
@@ -91,7 +93,7 @@ storm.controller('StormCtrl',
 		      $scope.postits = angdb.$child('postits');
 		      $scope.groups = angdb.$child('groups');
 		      // えらーしょりひつよう
-		      // User Add してないなら；／／／
+		      // User Add してないなら；
 		      $scope.user =  $cookies[$scope.roomID+'.name'];
 		      if(typeof $scope.roomID !== 'undefined'){
 			  //redirect
@@ -103,10 +105,9 @@ storm.controller('StormCtrl',
 			      text:'New Postit',
 			      pos_x : 0,
 			      pos_y : 0,
-			      //color: '#FFFFFF',
 			      color: $cookies[$scope.roomID+'.color'],
 			      created_id:'',
-			      holding_id:'',
+			      holding_id:'', // Group IDを保持
 			  });
 			  return newPostit;
 			  //userUI.addPostIt($scope.roomID);

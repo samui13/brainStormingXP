@@ -1,22 +1,3 @@
-<!--
-<nav class="navbar navbar-default navbar-fixed-Top" role="navigation">
-  <div class="navbar-collapse collapse">
-    <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-    <a class="navbar-brand" href="#">{{theme.$value}}</a>
-        </div>
-    <ul class="nav navbar-nav">
-      <li><a href ng-click="addPostIt()">PostIt</a></li>
-      <li><a href ng-click="addGroup()">CreateGroup</a></li>
-    </ul>
-  </div>
-</nav>
--->
 <div id="header">
   <div class="row navbar-collapse">
     <div class="col-md-4">
@@ -59,9 +40,10 @@
 -->
 
 <div id="brestField">
-  <div ng-repeat="postit in postits | orderByPriority" id="{{postit.$id}}" class="draggablePostIt" style="position:absolute;left:{{postit.pos_x}}px;top:{{postit.pos_y}}px;background-color:{{postit.color}};" aria-disable="true">
+  <div ng-repeat="postit in postits | orderByPriority|checkBelong" id="{{postit.$id}}" class="draggablePostIt" style="position:absolute;left:{{postit.pos_x}}px;top:{{postit.pos_y}}px;background-color:{{postit.color}};" aria-disable="true">
     <div class="content" contenteditable="true" ng-model="postit.text">{{postit.text}}</div>
   </div>
+  
   <div class="group droppableGroup draggableGroup" ng-repeat="group in groups | orderByPriority" id="{{group.$id}}" style="position:absolute;left:{{group.pos_x}}px;top:{{group.pos_y}}px;">
     <div class="content footer" contenteditable="true">
       <h3>{{group.text}}</h3>
