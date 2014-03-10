@@ -48,5 +48,12 @@
     <div class="content footer" contenteditable="true">
       <h3>{{group.text}}</h3>
     </div>
+    <!-- Postit Contents -->
+    <!--
+    <div ng-repeat="postit in postits | orderByPriority|checkBelong:group.$id" id="{{postit.$id}}" class="draggablePostIt" style="position:absolute;left:{{postit.pos_x}}px;top:{{postit.pos_y}}px;background-color:{{postit.color}};" aria-disable="true">
+      <div class="content" contenteditable="true" ng-model="postit.text">{{postit.text}}</div>
+    </div>
+    -->
+    
   </div>
 </div>

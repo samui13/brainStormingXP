@@ -1,30 +1,6 @@
 if(typeof stormControllers === 'undefined'){
-    var storm = angular.module('stormControllers',['stormFilter']);
+    var storm = angular.module('stormControllers',['stormFilter','stormFactory']);
 }
-
-
-storm.factory("RoomService",['$firebase',function($firebase){
-    var ref = new Firebase("https://localbrainst-samui13.firebaseio.com/");
-    var DB = $firebase(ref);
-    var room = DB.$child('rooms');
-    return {
-	setPos : function(obj,x,y,objs){
-	    var posx =  obj.$child('pos_x');
-	    var posy =  obj.$child('pos_y');
-	    objs.$off();
-	    posx.$set(x).
-		finally(function(){
-		    posy.$set(y).finally(function(){
-			objs.$on();
-		    });
-		    objs.$on();
-		});
-	},
-	getRef: function(){
-	    return room;
-	}
-    };
-}]);
 
 storm.controller('StormAddUserCtrl',
 		 ['$scope','$location','$routeParams','$cookies','$cookieStore','RoomService',
@@ -74,6 +50,7 @@ storm.controller('StormAddUserCtrl',
 			  $location.path("brain/"+$scope.roomID);
 		      }
 		  }]);
+
 // brain/:hash
 storm.controller('StormCtrl',
 		 ['$scope','$location','$http','$routeParams','$cookies','$firebase','RoomService','$timeout',
@@ -188,11 +165,11 @@ storm.controller('StormCtrl',
 			      var postit = $scope.postits.$child(id);
 			      var offset = $(this).offset();
 			      DB.setPos(postit,offset.left,offset.top,$scope.postits);
+			      // Post It がGroupに被っていたときの処理。
 			  });
 			  
 			  // Group
 			  $(document).on('mouseover','.draggableGroup',function(e){
-			      
 			      if($(e.target).hasClass('group')){
 				  //
 				  $(this).droppable(Groups.droppableOpt);
@@ -212,7 +189,21 @@ storm.controller('StormCtrl',
 			      var group = $scope.groups.$child(id);
 			      var offset = $(this).offset();
 			      DB.setPos(group,offset.left,offset.top,$scope.groups);
-
+			      // 取り敢えず、マウスがグループから離れたときに
+			      // グループの中身を調べてポストイットがあればholding_idを変更する
+			      // そとにだした場合にはPostit mouseoutEventで登録
+			      //$.each($('.'))
+			      var groupElem = $('#'+id);
+			      $.each(groupElem.children(),function(t,m){
+				  var contentID = $(m).get(0).id;
+				  var elem = $('#'+contentID);
+				  if(contentID == '')
+				      return true;
+				  // console.log(elem.parent().attr('class'));
+				  var postit = $scope.postits.$child(contentID).$child('holding_id');
+				  if(!(postit.$value == contentID))
+				      postit.$set(contentID);
+			      });
 			  });
 
 
