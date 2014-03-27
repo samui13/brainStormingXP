@@ -13,9 +13,6 @@ storm.controller('StormAddUserCtrl',
 		      $scope.choiceColor = function(color){
 			  $scope.ccolor = color;
 		      };
-		      $scope.colorR = 100;
-		      $scope.colorG = 100;
-		      $scope.colorB = 100;
 		      var changeColor = function(){
 			  // 今後修正するべき
 			  $scope.makecolor = 'rgb('+$scope.colorR+','+$scope.colorG+','+$scope.colorB+')';
