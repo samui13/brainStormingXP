@@ -4,20 +4,8 @@ angular.module('stormFilter',[]).
 	    var out = [];
 	    for(var key in input){
 		var postit = input[key];
-		if(postit.holding_id !== '')
+		if(postit.group_id !== '')
 		    continue
-		/*
-		  if((status == postit.holding_id,status)){
-		  continue;
-		  }
-		*/
-		/*	    
-			    if(postit.holding_id == "" && typeof status != 'undefined')
-			    continue;
-			    
-			    if(postit.holding_id != "" && (postit.holding_id != status))
-			    continue
-		*/	    
 		out.push(postit);
 	    }
 	    return out;
@@ -28,9 +16,9 @@ angular.module('stormFilter',[]).
 	    var out = [];
 	    for(var key in input){
 		var postit = input[key];
-		if(postit.holding_id === '')
+		if(postit.group_id === '')
 		    continue
-		if(postit.holding_id !== status)
+		if(postit.group_id !== status)
 		    continue
 		out.push(postit);
 	    }

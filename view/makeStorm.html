@@ -1,7 +1,7 @@
 
 <link rel="stylesheet" href="./css/index.css"></link>
 <link rel="stylesheet" href="./css/screen.css"></link>
-
+<ng-include src="'view/colorModal.html'"></ng-include>
 <div class="top">
   <div class="container">
     <h1 class="main"><img src="./img/main.png" alt="ブレストツクールXP" /></h1>
@@ -9,7 +9,12 @@
       <img class="form_ttl" src="./img/ttl_theme.png">
       <input type="text" name="theme" class="theme form_input" id="theme" ng-model="theme" placeholder="ブレストのお題を入れてね♩" value="DefaultTheme" /><br>
       <img class="form_ttl" src="./img/ttl_name.png">
-      <input type="text" name="username" class="username form_input" id="owner_name" ng-model="name" placeholder="名前を入力！" value="DefaultName"  /><br>
+      <input type="text" name="username" class="username form_input" id="owner_name" ng-model="name" placeholder="名前を入力！" value="DefaultName"  />
+
+      <input type="hidden" ng-model="ccolor" />
+      <span style="width:50px;height:50px;position:absolute;background-color:{{ccolor}};border: solid 5px #000;" data-toggle="modal" data-target="#myModal"></span>
+      <br />
+
       <input type="submit" class="button" id="create_button" value=""/>
     </form>
   </div>

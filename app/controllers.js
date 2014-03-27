@@ -1,38 +1,22 @@
 if(typeof stormControllers === 'undefined'){
-    var storm = angular.module('stormControllers',['stormFilter','stormFactory']);
+    var storm = angular.module('stormControllers',['stormFilter','stormFactory','stormTest']);
 }
-
 storm.controller('StormAddUserCtrl',
-		 ['$scope','$location','$routeParams','$cookies','$cookieStore','RoomService',
-		  function($scope,$location,$routeParams,$cookies,$cookieStore,DB){
+		 ['$scope','$location','$routeParams','$cookies','$cookieStore','RoomService','ColorService',
+		  function($scope,$location,$routeParams,$cookies,$cookieStore,DB,ColorDB){
 		      $scope.roomID = $routeParams.roomID;
-		      $scope.ccolor = '#00FF00';
-		      $scope.colors = [['#00FF00','#008080','#0068b7','#00a7db','#432f2f'],
-				      ['#999999','#fef4f4','#c85179','#dccb18','#82ae46']];
-		      $scope.makecolor='#FF0000';
-		      $scope.choiceColor = function(color){
-			  $scope.ccolor = color;
-		      };
-		      var changeColor = function(){
-			  // 今後修正するべき
-			  $scope.makecolor = 'rgb('+$scope.colorR+','+$scope.colorG+','+$scope.colorB+')';
-		      };
-		      $scope.$watch('colorR',function(){
-			  changeColor();
+		      $scope.$watch(function(){
+			  return ColorDB.getColor()
+		      },function(){
+			  $scope.ccolor = ColorDB.getColor();
 		      });
-		      $scope.$watch('colorG',function(){
-			  changeColor();
-		      });
-		      $scope.$watch('colorB',function(){
-			  changeColor();
-		      });
-
 		      $scope.submit = function(){
 			  $cookies[$scope.roomID+'.name'] = this.content;
 			  
 			  var ref = DB.getRef();
 			  var db = ref.$child($scope.roomID);
 			  var members = db.$child('members');
+			  console.log(ColorDB.getColor);
 			  var data = members.$add({
 			      name : this.content,
 			      color:$scope.ccolor,
@@ -41,7 +25,6 @@ storm.controller('StormAddUserCtrl',
 			      console.log(d.name());
 			      $cookies[$scope.roomID+'.member_id'] = d.name();
 			  });
-			  console.log(data);
 			  $cookies[$scope.roomID+'.color'] = $scope.ccolor;
 			  $cookies[$scope.roomID+'.flag'] = 'false';
 			  $location.path("brain/"+$scope.roomID);
@@ -81,10 +64,10 @@ storm.controller('StormCtrl',
 			      pos_y : 0,
 			      color: $cookies[$scope.roomID+'.color'],
 			      created_id:'',
-			      holding_id:'', // Group IDを保持
+			      holding_id:'', // UserID
+			      group_id:'',// Group IDを保持
 			  });
 			  return newPostit;
-			  //userUI.addPostIt($scope.roomID);
 		      }
 		      $scope.addGroup = function(){
 			  $scope.groups = angdb.$child('groups');
@@ -99,7 +82,6 @@ storm.controller('StormCtrl',
 			      text:'New Group',
 			  });
 			  return newGroup;
-			  //userUI.addGroup(0,0,100,100,'red','None');
 		      }
 		      $scope.viewSheet = function(){
 			  //userUI.viewSheet()
@@ -187,7 +169,7 @@ storm.controller('StormCtrl',
 			      var offset = $(this).offset();
 			      DB.setPos(group,offset.left,offset.top,$scope.groups);
 			      // 取り敢えず、マウスがグループから離れたときに
-			      // グループの中身を調べてポストイットがあればholding_idを変更する
+			      // グループの中身を調べてポストイットがあればgroup_idを変更する
 			      // そとにだした場合にはPostit mouseoutEventで登録
 			      //$.each($('.'))
 			      var groupElem = $('#'+id);
@@ -197,7 +179,7 @@ storm.controller('StormCtrl',
 				  if(contentID == '')
 				      return true;
 				  // console.log(elem.parent().attr('class'));
-				  var postit = $scope.postits.$child(contentID).$child('holding_id');
+				  var postit = $scope.postits.$child(contentID).$child('group_id');
 				  if(!(postit.$value == contentID))
 				      postit.$set(id);
 				      //postit.$set(contentID);
@@ -233,14 +215,44 @@ storm.controller('StormCtrl',
 			  //DB.data.roomTheme = '';
 		      }
 		  }]);
-storm.controller('StormMakeCtrl',
-		 ['$scope','$http','$cookies','$location','$firebase',
-		  function($scope,$http,$cookies,$location,$firebase){
-		      $scope.text = 'TEXT';
-		      $scope.abs = 'ASDFASF';
-		      //		      $cookies.abs = 'gs';
-		      $scope.submit = function(){
+storm.controller('ColorModalCtrl',
+		 ['$scope','ColorService',
+		  function($scope,ColorDB){
+		      
+		      //$scope.ccolor = '#00FF00';
+		      $scope.ccolor = ColorDB.getColor();
+		      $scope.colors = [['#00FF00','#008080','#0068b7','#00a7db','#432f2f'],
+				      ['#999999','#fef4f4','#c85179','#dccb18','#82ae46']];
+		      $scope.makecolor='#FF0000';
+		      $scope.choiceColor = function(color){
+			  $scope.ccolor = color;
+			  ColorDB.setColor(color);
+		      };
+		      var changeColor = function(){
+			  // 今後修正するべき
+			  $scope.makecolor = 'rgb('+$scope.colorR+','+$scope.colorG+','+$scope.colorB+')';
+		      };
+		      $scope.$watch('colorR',function(){
+			  changeColor();
+		      });
+		      $scope.$watch('colorG',function(){
+			  changeColor();
+		      });
+		      $scope.$watch('colorB',function(){
+			  changeColor();
+		      });
 
+		  }]);
+storm.controller('StormMakeCtrl',
+		 ['$scope','$http','$cookies','$location','$firebase','ColorService',
+		  function($scope,$http,$cookies,$location,$firebase,ColorDB){
+		      $scope.$watch(function(){
+			  return ColorDB.getColor()
+		      },function(){
+			  $scope.ccolor = ColorDB.getColor();
+		      });
+
+		      $scope.submit = function(){
 			  var ref = new Firebase("https://localbrainst-samui13.firebaseio.com/rooms/");				     
 			  var rooms = $firebase(ref);
 			  var room = ref.push({
