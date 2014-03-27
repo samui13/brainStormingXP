@@ -196,20 +196,18 @@ storm.controller('StormCtrl',
 			      var id = $(this).get(0).id;
 			      var postit = $scope.postits.$child(id);
 			      var t = postit.$child('text');
-			      $scope.postits.$off();
+			      // $scope.postits.$off();
 			      t.$set($(this).text()).
 				  finally(function(){
-				      $scope.postits.$on();
+				      // $scope.postits.$on();
 				  });
 			  });
 			  $(document).on('keyup','.draggableGroup',function(e){
 			      var id = $(this).get(0).id;
 			      var group = $scope.groups.$child(id);
 			      var t = group.$child('text');
-			      $scope.groups.$off();
 			      t.$set($(this).text()).
 				  finally(function(){
-				      $scope.groups.$on();
 				  });
 			  });
 			  
