@@ -69,21 +69,23 @@ storm.controller('StormCtrl',
 			      pos_x : 0,
 			      pos_y : 0,
 			      color: $cookies[$scope.roomID+'.color'],
-			      created_id:'',
-			      holding_id:'', // UserID
+			      created_id: parseInt((new Date)/1000), // 作成時間
+			      holding_id: $cookies[$scope.roomID+'.member_id'], // UserID
 			      group_id:'',// Group IDを保持
+			      editor_id:'', // 編集している人のID
 			  });
 			  return newPostit;
 		      }
 		      $scope.addGroup = function(){
 			  $scope.groups = angdb.$child('groups');
+			  
 			  var newGroup = $scope.groups.$add({
 			      pos_x : 0,
 			      pos_y : 0,
 			      width : 200,
 			      height: 200,
-			      created_id: 0,
-			      holding_id: 'NULL',
+			      created_id: parseInt((new Date)/1000),
+			      holding_id: $cookies[$scope.roomID+'.member_id'],
 			      color:'#FFFFFF',
 			      text:'New Group',
 			  });
@@ -177,18 +179,15 @@ storm.controller('StormCtrl',
 			      // 取り敢えず、マウスがグループから離れたときに
 			      // グループの中身を調べてポストイットがあればgroup_idを変更する
 			      // そとにだした場合にはPostit mouseoutEventで登録
-			      //$.each($('.'))
 			      var groupElem = $('#'+id);
 			      $.each(groupElem.children(),function(t,m){
 				  var contentID = $(m).get(0).id;
 				  var elem = $('#'+contentID);
 				  if(contentID == '')
 				      return true;
-				  // console.log(elem.parent().attr('class'));
 				  var postit = $scope.postits.$child(contentID).$child('group_id');
 				  if(!(postit.$value == contentID))
 				      postit.$set(id);
-				      //postit.$set(contentID);
 			      });
 			  });
 
@@ -275,10 +274,8 @@ storm.controller('StormMakeCtrl',
 			  
 			  var data = {};
 			  data.ID = room.name();
-			  data.membder_id = memberData.name();
-			  
+			  data.member_id = memberData.name();
 			  //this.text
-			  //var data = userUI.createRoom(this.theme,this.name);
 			  $cookies[data.ID+'.name'] = this.name;
 			  $cookies[data.ID+'.member_id'] = data.member_id;
 			  $cookies[data.ID+'.title'] = 'test';
@@ -288,6 +285,4 @@ storm.controller('StormMakeCtrl',
 
 		      };
 		  }]);
-
-
 
