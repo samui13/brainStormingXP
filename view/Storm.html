@@ -3,7 +3,7 @@
     <div class="col-md-4">
     </div>
     <div class="col-md-5">
-      <h2>お題&nbsp;&nbsp;:&nbsp;&nbsp;<a  href="#">{{theme.$value}}</a></h2>
+      <h2><a ng-click="ShowSlide()">お題</a>&nbsp;&nbsp;:&nbsp;&nbsp;<a  href="#">{{theme.$value}}</a></h2>
     </div>
     <div class="col-md-1 UI">
       <a href ng-click="addPostIt()"><span class="glyphicon glyphicon-plus"></span></a>
@@ -23,21 +23,13 @@
     </div>    
   </div>
 </div>
-<!--
-<div class="container">
-  
-  <div>
-    <div id="Users">
-      <ul ng-repeat="user in users">
-	<h3>Users List</h3>
-	<li>
-	  <em>{{user.color}}</em>:{{user.owner_flag}} {{user.name}}
-	</li>
-      </ul>
-    </div>
+
+<div id="UserList" style="display:none;">
+  <div ng-repeat="user in users">
+    <div style="float:left;width:auto;padding-right:50px;">{{user.name}}</div>
+    <div style="width:70px;height:70px;background-color:{{user.color}};border: solid 5px #000;"></div>
   </div>
 </div>
--->
 
 <div id="brestField">
   <div ng-repeat="postit in postits | orderByPriority|checkBelong:postit" id="{{postit.$id}}" class="draggablePostIt" style="position:absolute;left:{{postit.pos_x}}px;top:{{postit.pos_y}}px;background-color:{{postit.color}};" aria-disable="true">

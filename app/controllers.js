@@ -42,6 +42,12 @@ storm.controller('StormCtrl',
 			  console.log("Need Login");
 			  $location.path("/login/"+$scope.roomID);
 		      }
+		      $scope.ShowSlide = function(){
+			  if($("#UserList").is(":hidden"))
+			      $('#UserList').slideDown('slow');
+			  else
+			      $('#UserList').hide('slow');
+		      };
 		      // Serviceにかくべき。
 		      var room = DB.getRef();
 		      var angdb = room.$child($scope.roomID);
