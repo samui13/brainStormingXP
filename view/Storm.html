@@ -50,11 +50,11 @@
     </div>
     
     <!-- Postit Contents -->
-    <!--
-    <div ng-repeat="postit in postits | orderByPriority|checkBelong:group.$id" id="{{postit.$id}}" class="draggablePostIt" style="position:relative;background-color:{{postit.color}};" aria-disable="true">
+
+    <div ng-repeat="postit in postits | orderByPriority|check:group.$id" id="{{postit.$id}}" class="draggablePostIt" style="position:relative;background-color:{{postit.color}};" aria-disable="true">
       <div class="content" contenteditable="true" ng-model="postit.text">{{postit.text}}</div>
     </div>
-    -->
+
     
   </div>
 </div>

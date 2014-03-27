@@ -199,7 +199,8 @@ storm.controller('StormCtrl',
 				  // console.log(elem.parent().attr('class'));
 				  var postit = $scope.postits.$child(contentID).$child('holding_id');
 				  if(!(postit.$value == contentID))
-				      postit.$set(contentID);
+				      postit.$set(id);
+				      //postit.$set(contentID);
 			      });
 			  });
 
