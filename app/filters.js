@@ -4,6 +4,7 @@ angular.module('stormFilter',[]).
 	    var out = [];
 	    for(var key in input){
 		var postit = input[key];
+		
 		if(postit.group_id !== '')
 		    continue
 		out.push(postit);

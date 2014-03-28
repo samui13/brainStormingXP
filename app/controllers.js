@@ -62,12 +62,16 @@ storm.controller('StormCtrl',
 			  //redirect
 		      }
 		      //$scope.theme = 'None';
-		      $scope.addPostIt = function(){
+		      $scope.addPostIt = function(posX,posY){
+			  if(typeof posX === 'undefined')
+			      posX = 0;
+			  if(typeof posY === 'undefined')
+			      posY = 0;
 			  $scope.postits = angdb.$child('postits');
 			  var newPostit = $scope.postits.$add({
 			      text:'New Postit',
-			      pos_x : 0,
-			      pos_y : 0,
+			      pos_x : posX,
+			      pos_y : posY,
 			      color: $cookies[$scope.roomID+'.color'],
 			      created_id: parseInt((new Date)/1000), // 作成時間
 			      holding_id: $cookies[$scope.roomID+'.member_id'], // UserID
@@ -115,9 +119,8 @@ storm.controller('StormCtrl',
 		      $scope.timer = function(){
 			  $scope.mytimeout = $timeout($scope.timer,1000);
 			  if (parseInt($scope.UnixEndTime.$value) < $scope.UnixTime()){
-			      console.log("H");
 			      $scope.time = 0;
-			      $timeout.cancel($scope.mytimeout);
+			      //$timeout.cancel($scope.mytimeout);
 			      return;
 			  }
 			  $scope.time = parseInt($scope.UnixEndTime.$value)-$scope.UnixTime();
@@ -128,7 +131,7 @@ storm.controller('StormCtrl',
 			  /*
 			  var mytimeout = $timeout($scope.onTimeout,1000);
 			  */
-			  angdb.$child('timerDate').$set(parseInt((new Date)/1000)+1);//parseInt($scope.count.$value));
+			  angdb.$child('timerDate').$set(parseInt((new Date)/1000)+parseInt($scope.count.$value));
 		      }
 		      $scope.timerDecrease = function(){
 			  if(typeof mytimeout !== 'undefined' && $timeout.cancel(mytimeout) == true){
@@ -154,7 +157,8 @@ storm.controller('StormCtrl',
 		      angular.element(document).ready(function() {
 			  // Postit 作成
 			  $(document).on('dblclick','#brestField',function(e){
-			      $scope.addPostIt();
+			      
+			      $scope.addPostIt(e.clientX,e.clientY);
 			  });
 			  // Postitの処理
 			  $(document).on('mouseover','.draggablePostIt',function(e){
@@ -185,7 +189,6 @@ storm.controller('StormCtrl',
 				  $(this).droppable(Groups.droppableOpt);
 				  $(this).draggable(Groups.draggableOpt);
 				  $(this).draggable('enable');
-				  console.log($(e.target).hasClass('group'));
 				  var id = $(this).get(0).id;
 				  var group = $scope.groups.$child(id);
 				  var offset = $(this).offset();
@@ -224,6 +227,7 @@ storm.controller('StormCtrl',
 			      //console.log(text.replace(/[\n\r]/g,""));
 			      t.$set(text).
 				  finally(function(){
+				      $(this).focus();
 				      // $scope.postits.$on();
 				  });
 
@@ -243,6 +247,28 @@ storm.controller('StormCtrl',
 				  });
 
 			  });
+			  
+			  $(".trash").droppable({
+			      drop:function(e,ui){
+				  var id = $(ui.draggable[0]).attr('id');
+				  var postit = $scope.postits.$child(id);
+				  //console.log(id,postit);
+				  //postit.$remove();
+				  var hold = postit.$child('holding_id');
+				  //postit.$update({holding_id:-1});
+				  ///postit.$off('loaded');
+				  $scope.postits.$remove(id);				  
+				  postit.$remove();
+				  
+			      },
+			  });
+			  /*
+			  $(document).on('mouseover','.trash',function(e){
+			      var id = $(this).get(0).id;
+			      var postit = $scope.postits.$child(id);
+			      console.log(id,$(e.target),$(this),e);
+			  });
+			  */
 			  
 		      });
 		      
