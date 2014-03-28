@@ -133,6 +133,10 @@ storm.controller('StormCtrl',
 		      $scope.owner = $cookies[$scope.roomID+'.flag'];
 		      ///$scope.owner = 'false';
 		      angular.element(document).ready(function() {
+			  // Postit 作成
+			  $(document).on('dblclick','#brestField',function(e){
+			      $scope.addPostIt();
+			  });
 			  // Postitの処理
 			  $(document).on('mouseover','.draggablePostIt',function(e){
 			      if(!$(e.target).hasClass('content')){
@@ -207,6 +211,7 @@ storm.controller('StormCtrl',
 			  });
 			  $(document).on('keyup','.draggableGroup',function(e){
 			      var id = $(this).get(0).id;
+			      //console.log("Group",$(':focus')[0]);
 			      //console.log("Group",$($(this).children(0)[0]).text());
 			      var group = $scope.groups.$child(id);
 			      var t = group.$child('text');
@@ -215,7 +220,7 @@ storm.controller('StormCtrl',
 
 			      t.$set(text).
 				  finally(function(){
-				      $(this).focus();
+				      //$(this).focus();
 				  });
 
 			  });
