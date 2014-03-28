@@ -192,23 +192,32 @@ storm.controller('StormCtrl',
 			  });
 
 
-			  $(document).on('keyup','.draggablePostIt',function(e){
+			  $(document).on('keypress','.draggablePostIt',function(e){
 			      var id = $(this).get(0).id;
+			      //console.log("Postit",$(this).children(0));
 			      var postit = $scope.postits.$child(id);
 			      var t = postit.$child('text');
-			      // $scope.postits.$off();
-			      t.$set($(this).text()).
+			      var text = $(this).children(0).text();
+			      //console.log(text.replace(/[\n\r]/g,""));
+			      t.$set(text).
 				  finally(function(){
 				      // $scope.postits.$on();
 				  });
+
 			  });
 			  $(document).on('keyup','.draggableGroup',function(e){
 			      var id = $(this).get(0).id;
+			      //console.log("Group",$($(this).children(0)[0]).text());
 			      var group = $scope.groups.$child(id);
 			      var t = group.$child('text');
-			      t.$set($(this).text()).
+			      var text = $($(this).children(0)[0]).text();
+			      //console.log(text.replace(/[\n\r\t]/g,""));
+
+			      t.$set(text).
 				  finally(function(){
+				      $(this).focus();
 				  });
+
 			  });
 			  
 		      });
