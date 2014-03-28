@@ -17,7 +17,8 @@
 	  <a href ng-click="timerIncrease()"><span class="glyphicon glyphicon-chevron-right"></span></a>
       </div>
       <div class="">
-	<span style="padding-left:12px">{{round(count/60)}}:{{count%60}}</span>
+	<!--<span style="padding-left:12px">{{round((UnixEndTime.$value-UnixTime())/60)}}:{{(UnixEndTime.$value-UnixTime())%60}}</span>-->
+	<span style="padding-left:12px">{{round(time/60)}}:{{(time)%60}}</span>
       </div>
 
     </div>    
@@ -30,7 +31,6 @@
     <div style="width:70px;height:70px;background-color:{{user.color}};border: solid 5px #000;"></div>
   </div>
 </div>
-
 <div id="brestField">
   <div ng-repeat="postit in postits | orderByPriority|checkBelong:postit" id="{{postit.$id}}" class="draggablePostIt" style="position:absolute;left:{{postit.pos_x}}px;top:{{postit.pos_y}}px;background-color:{{postit.color}};" aria-disable="true">
     <div class="content" contenteditable="true" ng-model="postit.text">{{postit.text}}</div>

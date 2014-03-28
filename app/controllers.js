@@ -95,8 +95,9 @@ storm.controller('StormCtrl',
 			  //userUI.viewSheet()
 		      }
 		      $scope.round = Math.floor;
-		      $scope.count = 5*60;
-
+		      $scope.count = angdb.$child('timerCount');
+		      $scope.UnixEndTime = angdb.$child('timerDate');
+		      
 		      $scope.onTimeout = function(){
 			  // 2度おし防止
 			  if(typeof mytimeout !== 'undefined')
@@ -107,23 +108,41 @@ storm.controller('StormCtrl',
 			  else
 			      $timeout.cancel(mytimeout);
 		      }
+		      
+		      $scope.UnixTime = function(){
+			  return parseInt((new Date)/1000);
+		      }
+		      $scope.timer = function(){
+			  $scope.mytimeout = $timeout($scope.timer,1000);
+			  if (parseInt($scope.UnixEndTime.$value) < $scope.UnixTime()){
+			      console.log("H");
+			      $scope.time = 0;
+			      $timeout.cancel($scope.mytimeout);
+			      return;
+			  }
+			  $scope.time = parseInt($scope.UnixEndTime.$value)-$scope.UnixTime();
+		      };
+		      $scope.mytimeout = $timeout($scope.timer,1000);
 
 		      $scope.timerStart = function(){
+			  /*
 			  var mytimeout = $timeout($scope.onTimeout,1000);
+			  */
+			  angdb.$child('timerDate').$set(parseInt((new Date)/1000)+1);//parseInt($scope.count.$value));
 		      }
 		      $scope.timerDecrease = function(){
 			  if(typeof mytimeout !== 'undefined' && $timeout.cancel(mytimeout) == true){
 			      $scope.timerStart();
 			      return;
 			  }
-			  $scope.count-=60;
+			  $scope.count.$value-=60;
 		      }
 		      $scope.timerIncrease = function(){
 			  if(typeof mytimeout !== 'undefined' && $timeout.cancel(mytimeout) == true){
 			      $scope.timerStart();
 			      return;
 			  }
-			  $scope.count+=60;
+			  $scope.count.$value+=60;
 		      }
 		      $scope.timerStop = function(){
 			  $timeout.cancel(mytimeout);
@@ -273,7 +292,9 @@ storm.controller('StormMakeCtrl',
 			  var ref = new Firebase("https://localbrainst-samui13.firebaseio.com/rooms/");				     
 			  var rooms = $firebase(ref);
 			  var room = ref.push({
-			      theme:this.theme
+			      timerDate:'NULL',
+			      timerCount:'300',
+			      theme:this.theme,
 			  });
 			  //rooms.child(room.name);
 			  var memberData = room.child('members').push({
