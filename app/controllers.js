@@ -5,6 +5,8 @@ storm.controller('StormAddUserCtrl',
 		 ['$scope','$location','$routeParams','$cookies','$cookieStore','RoomService','ColorService',
 		  function($scope,$location,$routeParams,$cookies,$cookieStore,DB,ColorDB){
 		      $scope.roomID = $routeParams.roomID;
+		      if($cookies[$scope.roomID+'.name'])
+			  $location.path("brain/"+$scope.roomID);
 		      $scope.$watch(function(){
 			  return ColorDB.getColor()
 		      },function(){
