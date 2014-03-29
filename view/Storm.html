@@ -1,10 +1,31 @@
+<div class="modal fade" id="UserList">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">User List</h4>
+      </div>
+      <div class="modal-body">
+	<div ng-repeat="user in users">
+	  <div style="float:left;width:auto;padding-right:50px;">{{user.name}}</div>
+	  <div style="width:70px;height:70px;background-color:{{user.color}};border: solid 5px #000;"></div>
+	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 <div id="header">
   <div class="row navbar-collapse">
     <div class="col-md-4">
     </div>
     <div class="col-md-5">
-      <h2><a ng-click="ShowSlide()">お題</a>&nbsp;&nbsp;:&nbsp;&nbsp;<a  href="#">{{theme.$value}}</a></h2>
+      <h2><a data-toggle="modal" data-target="#UserList">お題</a>&nbsp;&nbsp;:&nbsp;&nbsp;<a  href="#">{{theme.$value}}</a></h2>
     </div>
     <div class="col-md-1 UI">
       <a href ng-click="addPostIt()"><span class="glyphicon glyphicon-plus"></span></a>
@@ -25,13 +46,14 @@
     </div>    
   </div>
 </div>
-
+<!--
 <div id="UserList" style="display:none;">
   <div ng-repeat="user in users">
     <div style="float:left;width:auto;padding-right:50px;">{{user.name}}</div>
     <div style="width:70px;height:70px;background-color:{{user.color}};border: solid 5px #000;"></div>
   </div>
 </div>
+-->
 <div id="brestField">
   <div ng-repeat="postit in postits | orderByPriority|checkBelong:postit" id="{{postit.$id}}" class="draggablePostIt" style="position:absolute;left:{{postit.pos_x}}px;top:{{postit.pos_y}}px;background-color:{{postit.color}};" aria-disable="true">
     <div class="content" contenteditable="true" ng-model="postit.text">{{postit.text}}</div>
