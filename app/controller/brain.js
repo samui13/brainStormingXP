@@ -1,40 +1,5 @@
-if(typeof stormControllers === 'undefined'){
-    var storm = angular.module('stormControllers',['stormFilter','stormFactory','stormTest']);
-}
-
-storm.controller('StormAddUserCtrl',
-		 ['$scope','$location','$routeParams','$cookies','$cookieStore','RoomService','ColorService',
-		  function($scope,$location,$routeParams,$cookies,$cookieStore,DB,ColorDB){
-		      $scope.roomID = $routeParams.roomID;
-		      if($cookies[$scope.roomID+'.name'])
-			  $location.path("brain/"+$scope.roomID);
-		      $scope.$watch(function(){
-			  return ColorDB.getColor()
-		      },function(){
-			  $scope.ccolor = ColorDB.getColor();
-		      });
-		      $scope.submit = function(){
-			  $cookies[$scope.roomID+'.name'] = this.content;
-			  
-			  var ref = DB.getRef();
-			  var db = ref.$child($scope.roomID);
-			  var members = db.$child('members');
-			  console.log(ColorDB.getColor);
-			  var data = members.$add({
-			      name : this.content,
-			      color:$scope.ccolor,
-			      owner_flag:'false',
-			  }).then(function(d){
-			      console.log(d.name());
-			      $cookies[$scope.roomID+'.member_id'] = d.name();
-			  });
-			  $cookies[$scope.roomID+'.color'] = $scope.ccolor;
-			  $cookies[$scope.roomID+'.flag'] = 'false';
-			  $location.path("brain/"+$scope.roomID);
-		      }
-		  }]);
-// brain/:hash
-storm.controller('StormCtrl',
+angular.module('stormControllers',['stormFilter','stormFactory','stormTest']).
+    controller('StormCtrl',
 		 ['$scope','$location','$http','$routeParams','$cookies','$firebase','RoomService','$timeout',
 		  function($scope,$location,$http,$routeParams,$cookies,$firebase,DB,$timeout){
 		      console.log($cookies);
@@ -55,7 +20,6 @@ storm.controller('StormCtrl',
 		      var angdb = room.$child($scope.roomID);
 		      $scope.users = angdb.$child("members");
 		      $scope.theme = angdb.$child('theme');
-		      $scope.open = angdb.$child('openPostit');
 		      $scope.postits = angdb.$child('postits');
 		      $scope.groups = angdb.$child('groups');
 		      // えらーしょりひつよう
@@ -255,8 +219,11 @@ storm.controller('StormCtrl',
 			      drop:function(e,ui){
 				  var id = $(ui.draggable[0]).attr('id');
 				  var postit = $scope.postits.$child(id);
+				  //console.log(id,postit);
+				  //postit.$remove();
 				  var hold = postit.$child('holding_id');
-				  $("#"+id).remove();
+				  //postit.$update({holding_id:-1});
+				  ///postit.$off('loaded');
 				  $scope.postits.$remove(id);				  
 				  postit.$remove();
 				  
@@ -277,72 +244,3 @@ storm.controller('StormCtrl',
 			  //DB.data.roomTheme = '';
 		      }
 		  }]);
-storm.controller('ColorModalCtrl',
-		 ['$scope','ColorService',
-		  function($scope,ColorDB){
-		      
-		      //$scope.ccolor = '#00FF00';
-		      $scope.ccolor = ColorDB.getColor();
-		      $scope.colors = [['#00FF00','#008080','#0068b7','#00a7db','#432f2f'],
-				      ['#999999','#fef4f4','#c85179','#dccb18','#82ae46']];
-		      $scope.makecolor='#FF0000';
-		      $scope.choiceColor = function(color){
-			  $scope.ccolor = color;
-			  ColorDB.setColor(color);
-		      };
-		      var changeColor = function(){
-			  // 今後修正するべき
-			  $scope.makecolor = 'rgb('+$scope.colorR+','+$scope.colorG+','+$scope.colorB+')';
-		      };
-		      $scope.$watch('colorR',function(){
-			  changeColor();
-		      });
-		      $scope.$watch('colorG',function(){
-			  changeColor();
-		      });
-		      $scope.$watch('colorB',function(){
-			  changeColor();
-		      });
-
-		  }]);
-storm.controller('StormMakeCtrl',
-		 ['$scope','$http','$cookies','$location','$firebase','ColorService',
-		  function($scope,$http,$cookies,$location,$firebase,ColorDB){
-		      $scope.$watch(function(){
-			  return ColorDB.getColor()
-		      },function(){
-			  $scope.ccolor = ColorDB.getColor();
-		      });
-
-		      $scope.submit = function(){
-			  var ref = new Firebase("https://localbrainst-samui13.firebaseio.com/rooms/");				     
-			  var rooms = $firebase(ref);
-			  var room = ref.push({
-			      openPostit:false,
-			      timerDate:'NULL',
-			      timerCount:'300',
-			      theme:this.theme,
-			  });
-			  //rooms.child(room.name);
-			  var memberData = room.child('members').push({
-			      name:this.name,
-			      color:'#FF0000',
-			      owner_flag:'true'
-			  });
-			  var groupsRef = room.child('groups');
-			  var postits = room.child('postits');
-			  
-			  var data = {};
-			  data.ID = room.name();
-			  data.member_id = memberData.name();
-			  //this.text
-			  $cookies[data.ID+'.name'] = this.name;
-			  $cookies[data.ID+'.member_id'] = data.member_id;
-			  $cookies[data.ID+'.title'] = 'test';
-			  $cookies[data.ID+'.color'] = '#FF0000';
-			  $cookies[data.ID+'.flag'] = 'true';
-			  $location.path("/brain/"+data.ID);
-
-		      };
-		  }]);
-
