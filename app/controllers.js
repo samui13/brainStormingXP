@@ -1,5 +1,5 @@
 if(typeof stormControllers === 'undefined'){
-    var storm = angular.module('stormControllers',['stormFilter','stormFactory','stormTest']);
+    var storm = angular.module('stormControllers',['stormFilter','stormFactory','stormTest','ui.bootstrap']);
 }
 
 storm.controller('StormAddUserCtrl',
@@ -37,6 +37,8 @@ storm.controller('StormAddUserCtrl',
 storm.controller('StormCtrl',
 		 ['$scope','$location','$http','$routeParams','$cookies','$firebase','RoomService','$timeout',
 		  function($scope,$location,$http,$routeParams,$cookies,$firebase,DB,$timeout){
+		      //$scope.open();
+		      
 		      console.log($cookies);
 		      // ここはえらーしょりなくてもいいかも
 		      $scope.roomID = $routeParams.roomID;
@@ -160,7 +162,11 @@ storm.controller('StormCtrl',
 		      angular.element(document).ready(function() {
 			  // Postit 作成
 			  $(document).on('dblclick','#brestField',function(e){
-			      
+			      var target = $(e.target);
+			      if(target.hasClass('group') || target.hasClass('draggablePostIt') ||
+				target.hasClass('content'))
+				 return true;
+
 			      $scope.addPostIt(e.clientX,e.clientY);
 			  });
 			  // Postitの処理
@@ -220,6 +226,25 @@ storm.controller('StormCtrl',
 			      });
 			  });
 
+			  $(document).on('dblclick','.draggableGroup',function(e){
+			      var id = $(e.target).get(0).id;
+			      var c = $scope.groups.$child(id).$child('color');
+			      var colors = ['#fef4f4','#c4a3bf','#ebf6f7',
+					   '#f8e58c','#ffffff','#f8b862'];
+			      var now = $('#'+id).css('background-color');
+			      var rgb2hex = function (rgb) {
+				  rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+				  function hex(x) {
+				      return ("0" + parseInt(x).toString(16)).slice(-2);
+				  }
+				  return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+			      }
+			      var colorIndex = ((colors.indexOf(rgb2hex(now))+1)%colors.length);
+			      var color = colors[colorIndex];
+			      c.$set(color).finally(function(){
+				  $("#"+id).css('background-color',color);
+			      });
+			  });
 
 			  $(document).on('keypress','.draggablePostIt',function(e){
 			      var id = $(this).get(0).id;
@@ -259,7 +284,13 @@ storm.controller('StormCtrl',
 				  $("#"+id).remove();
 				  $scope.postits.$remove(id);				  
 				  postit.$remove();
-				  
+				  $(".trashIcon").css('font-size','5em');
+			      },
+			      over:function(e,ui){
+				  $(".trashIcon").css('font-size','10em');
+			      },
+			      out:function(e,ui){
+				  $(".trashIcon").css('font-size','5em');
 			      },
 			  });
 			  /*

@@ -1,3 +1,19 @@
+<script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-header">
+    <h3>I'm a modal!</h3>
+  </div>
+  <div class="modal-body">
+    <ul>
+      aaa
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  </div>
+</script>
+
+
 <div class="modal fade" id="UserList">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -55,15 +71,17 @@
 </div>
 -->
 <div id="brestField">
+
   <div ng-repeat="postit in postits | orderByPriority|checkBelong:postit" id="{{postit.$id}}" class="draggablePostIt" style="position:absolute;left:{{postit.pos_x}}px;top:{{postit.pos_y}}px;background-color:{{postit.color}};" aria-disable="true">
     <div class="content" contenteditable="true" ng-model="postit.text">{{postit.text}}</div>
   </div>
   
-  <div class="group droppableGroup draggableGroup" ng-repeat="group in groups | orderByPriority" id="{{group.$id}}" style="position:absolute;left:{{group.pos_x}}px;top:{{group.pos_y}}px;">
+  <div class="group droppableGroup draggableGroup" ng-repeat="group in groups | orderByPriority" id="{{group.$id}}" style="position:absolute;left:{{group.pos_x}}px;top:{{group.pos_y}}px;background-color:{{group.color}};">
     <div class="content footer" contenteditable="true">
-      <h3>{{group.text}}</h3>
+      <h3>
+      {{group.text}}
+      </h3>
     </div>
-    
     <!-- Postit Contents -->
 
     <div ng-repeat="postit in postits | orderByPriority|check:group.$id" id="{{postit.$id}}" class="draggablePostIt" style="position:relative;background-color:{{postit.color}};" aria-disable="true">
@@ -73,7 +91,7 @@
     
   </div>
 
-  <div id="TrashBox" class="trash" style="position:fixed;bottom:0%;left:1%;width:150px;height:100px;">
+  <div id="TrashBox" class="trash" style="position:fixed;bottom:0%;left:1%;width:200px;height:100px;">
     <span class="trashIcon glyphicon glyphicon-trash" style="width:100px;font-size:5em;"></span>
   </div>
   
