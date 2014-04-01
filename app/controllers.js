@@ -228,6 +228,9 @@ storm.controller('StormCtrl',
 
 			  $(document).on('dblclick','.draggableGroup',function(e){
 			      var id = $(e.target).get(0).id;
+			      if($(e.target).hasClass('draggablePostIt')){
+				  return false;
+			      }
 			      var c = $scope.groups.$child(id).$child('color');
 			      var colors = ['#fef4f4','#c4a3bf','#ebf6f7',
 					   '#f8e58c','#ffffff','#f8b862'];
