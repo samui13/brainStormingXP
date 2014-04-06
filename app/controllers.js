@@ -70,6 +70,8 @@ storm.controller('StormCtrl',
 		      }
 		      //$scope.theme = 'None';
 		      $scope.addPostIt = function(posX,posY){
+			  if(typeof $scope.postits == 'undefined')
+			      return;
 			  if(typeof posX === 'undefined')
 			      posX = 0;
 			  if(typeof posY === 'undefined')
@@ -83,6 +85,8 @@ storm.controller('StormCtrl',
 			      holding_id: $cookies[$scope.roomID+'.member_id'], // UserID
 			      group_id:'',// Group IDを保持
 			      editor_id:'', // 編集している人のID
+			  }).finally(function(){
+			      //angdb.$child('postits').$bind($scope,'postits');
 			  });
 			  return newPostit;
 		      }
@@ -97,6 +101,9 @@ storm.controller('StormCtrl',
 			      holding_id: $cookies[$scope.roomID+'.member_id'],
 			      color:'#FFFFFF',
 			      text:'New Group',
+			  }).finally(function(){
+			      if(typeof $scope.groups == 'undefined')
+				  angdb.$child('groups').$bind($scope,'groups');
 			  });
 			  return newGroup;
 		      }
@@ -176,6 +183,11 @@ storm.controller('StormCtrl',
 				  $(this).draggable('enable');
 				  var id = $(this).get(0).id;
 				  var offset = $(this).offset();
+				  
+				  if(!(id in $scope.postits)){
+				      angdb.$child('postits').$bind($scope,'postits');
+				      console.log(id in $scope.postits);
+				  }
 				  $scope.postits[id].pos_x = offset.left;
 				  $scope.postits[id].pos_y = offset.top;				  
 			      }
@@ -343,21 +355,14 @@ storm.controller('StormMakeCtrl',
 			      timerDate:'NULL',
 			      timerCount:'300',
 			      theme:this.theme,
-			      //groups:{},
-			      ///postits:{},
+			      groups:"",
+			      postits:"",
 			  });
-			  //rooms.child(room.name);
 			  var memberData = room.child('members').push({
 			      name:this.name,
 			      color:'#FF0000',
 			      owner_flag:'true',
 			  });
-			  
-			  //room.child('postits').push({});
-			  //angdb.$child('postits');
-			  //room.child('groups').push('null');
-			  //var groupsRef = room.child('groups');
-			  //var postits = room.child('postits');
 			  
 			  var data = {};
 			  data.ID = room.name();
