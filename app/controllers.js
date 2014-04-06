@@ -20,7 +20,7 @@ storm.controller('StormAddUserCtrl',
 			  var db = ref.$child($scope.roomID);
 			  var members = db.$child('members');
 			  console.log(ColorDB.getColor);
-			  var data = members.$add({
+			  var data = db.$child('members').$add({
 			      name : this.content,
 			      color:$scope.ccolor,
 			      owner_flag:'false',
@@ -58,8 +58,10 @@ storm.controller('StormCtrl',
 		      $scope.users = angdb.$child("members");
 		      $scope.theme = angdb.$child('theme');
 		      $scope.open = angdb.$child('openPostit');
-		      $scope.postits = angdb.$child('postits');
-		      $scope.groups = angdb.$child('groups');
+		      //$scope.postits = angdb.$child('postits');
+		      angdb.$child('postits').$bind($scope,'postits');
+		      //$scope.groups = angdb.$child('groups');
+		      angdb.$child('groups').$bind($scope,'groups');
 		      // えらーしょりひつよう
 		      // User Add してないなら；
 		      $scope.user =  $cookies[$scope.roomID+'.name'];
@@ -72,8 +74,7 @@ storm.controller('StormCtrl',
 			      posX = 0;
 			  if(typeof posY === 'undefined')
 			      posY = 0;
-			  $scope.postits = angdb.$child('postits');
-			  var newPostit = $scope.postits.$add({
+			  var newPostit = angdb.$child('postits').$add({
 			      text:'New Postit',
 			      pos_x : posX,
 			      pos_y : posY,
@@ -87,8 +88,7 @@ storm.controller('StormCtrl',
 		      }
 		      $scope.addGroup = function(){
 			  //$scope.groups = angdb.$child('groups');
-			  
-			  var newGroup = $scope.groups.$add({
+			  var newGroup = angdb.$child('groups').$add({
 			      pos_x : 0,
 			      pos_y : 0,
 			      width : 200,
@@ -175,9 +175,9 @@ storm.controller('StormCtrl',
 				  $(this).draggable(PostIts.draggableOpt);
 				  $(this).draggable('enable');
 				  var id = $(this).get(0).id;
-				  var postit = $scope.postits.$child(id);
 				  var offset = $(this).offset();
-				  DB.setPos(postit,offset.left,offset.top,$scope.postits);
+				  $scope.postits[id].pos_x = offset.left;
+				  $scope.postits[id].pos_y = offset.top;				  
 			      }
 			  });
 			  
@@ -185,9 +185,9 @@ storm.controller('StormCtrl',
 			      $(this).draggable(PostIts.draggableOpt);
 			      $(this).draggable('disable');
 			      var id = $(this).get(0).id;
-			      var postit = $scope.postits.$child(id);
 			      var offset = $(this).offset();
-			      DB.setPos(postit,offset.left,offset.top,$scope.postits);
+			      $scope.postits[id].pos_x = offset.left;
+			      $scope.postits[id].pos_y = offset.top;						      
 			      // Post It がGroupに被っていたときの処理。
 			  });
 			  
@@ -199,18 +199,18 @@ storm.controller('StormCtrl',
 				  $(this).draggable(Groups.draggableOpt);
 				  $(this).draggable('enable');
 				  var id = $(this).get(0).id;
-				  var group = $scope.groups.$child(id);
 				  var offset = $(this).offset();
-				  DB.setPos(group,offset.left,offset.top,$scope.groups);
+				  $scope.groups[id].pos_x = offset.left;
+				  $scope.groups[id].pos_y = offset.top;
 			      }
 			  });
 			  $(document).on('mouseout','.draggableGroup',function(e){
 			      $(this).draggable(Groups.draggableOpt);
 			      $(this).draggable('disable');
 			      var id = $(this).get(0).id;
-			      var group = $scope.groups.$child(id);
 			      var offset = $(this).offset();
-			      DB.setPos(group,offset.left,offset.top,$scope.groups);
+			      $scope.groups[id].pos_x = offset.left;
+			      $scope.groups[id].pos_y = offset.top;			      
 			      // 取り敢えず、マウスがグループから離れたときに
 			      // グループの中身を調べてポストイットがあればgroup_idを変更する
 			      // そとにだした場合にはPostit mouseoutEventで登録
@@ -220,9 +220,12 @@ storm.controller('StormCtrl',
 				  var elem = $('#'+contentID);
 				  if(contentID == '')
 				      return true;
+				  
+				  
 				  var postit = $scope.postits.$child(contentID).$child('group_id');
 				  if(!(postit.$value == contentID))
 				      postit.$set(id);
+				  
 			      });
 			  });
 
@@ -248,35 +251,19 @@ storm.controller('StormCtrl',
 				  $("#"+id).css('background-color',color);
 			      });
 			  });
-
+			  
 			  $(document).on('keyup','.draggablePostIt',function(e){
 			      var id = $(this).get(0).id;
 			      //console.log("Postit",$(this).children(0));
-			      var postit = $scope.postits.$child(id);
-			      var t = postit.$child('text');
 			      var text = $(this).children(0).text();
-			      //console.log(text.replace(/[\n\r]/g,""));
-			      t.$set(text).
-				  finally(function(){
-				      $(this).focus();
-				      // $scope.postits.$on();
-				  });
-
+			      $scope.postits[id].text = text;
 			  });
+			  
+
 			  $(document).on('keyup','.draggableGroup',function(e){
 			      var id = $(this).get(0).id;
-			      //console.log("Group",$(':focus')[0]);
-			      //console.log("Group",$($(this).children(0)[0]).text());
-			      var group = $scope.groups.$child(id);
-			      var t = group.$child('text');
 			      var text = $($(this).children(0)[0]).text();
-			      //console.log(text.replace(/[\n\r\t]/g,""));
-
-			      t.$set(text).
-				  finally(function(){
-				      //$(this).focus();
-				  });
-
+			      $scope.groups[id].text = text;
 			  });
 			  
 			  $(".trash").droppable({
@@ -356,15 +343,21 @@ storm.controller('StormMakeCtrl',
 			      timerDate:'NULL',
 			      timerCount:'300',
 			      theme:this.theme,
+			      //groups:{},
+			      ///postits:{},
 			  });
 			  //rooms.child(room.name);
 			  var memberData = room.child('members').push({
 			      name:this.name,
 			      color:'#FF0000',
-			      owner_flag:'true'
+			      owner_flag:'true',
 			  });
-			  var groupsRef = room.child('groups');
-			  var postits = room.child('postits');
+			  
+			  //room.child('postits').push({});
+			  //angdb.$child('postits');
+			  //room.child('groups').push('null');
+			  //var groupsRef = room.child('groups');
+			  //var postits = room.child('postits');
 			  
 			  var data = {};
 			  data.ID = room.name();

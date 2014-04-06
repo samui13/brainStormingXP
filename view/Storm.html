@@ -78,9 +78,7 @@
   
   <div class="group droppableGroup draggableGroup" ng-repeat="group in groups | orderByPriority" id="{{group.$id}}" style="position:absolute;left:{{group.pos_x}}px;top:{{group.pos_y}}px;background-color:{{group.color}};">
     <div class="content footer" contenteditable="true">
-      <h3>
       {{group.text}}
-      </h3>
     </div>
     <!-- Postit Contents -->
 

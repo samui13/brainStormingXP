@@ -72,6 +72,9 @@
 .footer h3{
     margin-top:0px;
 }
+.footer{
+    font-size:150%;
+}
 #brestField .group{
     z-index:2;
     width:300px;
