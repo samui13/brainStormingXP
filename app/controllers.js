@@ -86,7 +86,7 @@ storm.controller('StormCtrl',
 			  return newPostit;
 		      }
 		      $scope.addGroup = function(){
-			  $scope.groups = angdb.$child('groups');
+			  //$scope.groups = angdb.$child('groups');
 			  
 			  var newGroup = $scope.groups.$add({
 			      pos_x : 0,

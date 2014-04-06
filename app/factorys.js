@@ -20,13 +20,13 @@ angular.module('stormFactory',[]).factory('RoomService',['$firebase',function($f
 	    setPos : function(obj,x,y,objs){
 		var posx =  obj.$child('pos_x');
 		var posy =  obj.$child('pos_y');
-		objs.$off();
+		//objs.$off();
 		posx.$set(x).
 		    finally(function(){
 			posy.$set(y).finally(function(){
-			    objs.$on();
+			    //objs.$on();
 			});
-			objs.$on();
+			//objs.$on();
 		    });
 	    },
 	    getRef: function(){
