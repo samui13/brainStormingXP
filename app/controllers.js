@@ -249,7 +249,7 @@ storm.controller('StormCtrl',
 			      });
 			  });
 
-			  $(document).on('keypress','.draggablePostIt',function(e){
+			  $(document).on('keyup','.draggablePostIt',function(e){
 			      var id = $(this).get(0).id;
 			      //console.log("Postit",$(this).children(0));
 			      var postit = $scope.postits.$child(id);
