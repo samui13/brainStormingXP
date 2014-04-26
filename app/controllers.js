@@ -176,16 +176,16 @@ storm.controller('StormCtrl',
 			  var text = $($event.target).get(0).textContent;
 			  $scope.groups[id].text = text;
 		      }
-		      angular.element(document).ready(function() {
-			  // Postit 作成
-			  $(document).on('dblclick','#brestField',function(e){
-			      var target = $(e.target);
-			      if(target.hasClass('group') || target.hasClass('draggablePostIt') ||
+		      $scope.createPostit = function($event){
+			  // Dblclickで Postit 作成
+			  var target = $($event.target);
+			  if(target.hasClass('group') || target.hasClass('draggablePostIt') ||
 				target.hasClass('content'))
-				 return true;
+				 return false;
 
-			      $scope.addPostIt(e.clientX,e.clientY);
-			  });
+			      $scope.addPostIt($event.clientX,$event.clientY);
+		      }
+		      angular.element(document).ready(function() {
 			  // Postitの処理
 			  $(document).on('mouseover','.draggablePostIt',function(e){
 			      if(!$(e.target).hasClass('content')){

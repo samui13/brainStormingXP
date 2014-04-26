@@ -63,7 +63,7 @@
   </div>
 </div>
 
-<div id="brestField">
+<div id="brestField" ng-dblclick="createPostit($event);">
 
   <div ng-repeat="postit in postits | orderByPriority|checkBelong:postit" id="{{postit.$id}}" class="draggablePostIt" style="position:absolute;left:{{postit.pos_x}}px;top:{{postit.pos_y}}px;background-color:{{postit.color}};" aria-disable="true">
     <div class="content" contenteditable="true" ng-model="postit.text" ng-keyup="freshPostitTEXT($event);">{{postit.text}}</div>
