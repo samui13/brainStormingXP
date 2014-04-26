@@ -388,7 +388,25 @@ storm.controller('StormWaitingCtrl',
 		      }
 		  }]);
 storm.controller('StormOneCtrl',
-		 ['$scope',
-		 function(){
-		     console.log("H");
+		 ['$scope','$routeParams','RoomService',
+		 function($scope,$routeParams,DB){
+		     $scope.roomID = $routeParams.roomID;
+		     var room = DB.getDB($scope.roomID);
+		     console.log(room.$child('ideaCount'));
+		     $scope.title = room.$child('theme');
+		     $scope.timerDate = room.$child('timerDate');
+		     $scope.postits = [];
+		     $scope.ideaCount = room.$child('ideaCount');
+		     $scope.ideaCount.$on("loaded",function(){
+			 for(var i = 0; i < $scope.ideaCount.$value; i++){
+			     $scope.postits.push({
+				 color:null,
+				 created_id:null,
+				 editor_id:null,
+				 holding_id:null,
+				 text:'TEST',
+			     });
+			 }
+		     });
+		     
 		 }]);

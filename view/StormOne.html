@@ -3,7 +3,7 @@
     <div class="col-md-4">
     </div>
     <div class="col-md-4">
-      <h2>アイディアだして頂戴</h2>
+      <h2>アイディアだして頂戴:{{title.$value}}</h2>
     </div>
     <div class="col-md-4">
     </div>
@@ -12,5 +12,9 @@
 
 
 <div id="brestField">
-
+  <div id="oneStorm" class="row">
+    <div ng-repeat="postit in postits | orderByPriority" class="draggablePostIt" style="margin-top:10px;margin-left:100px;background-color:{{postit.color}};" aria-disable="true">
+      <div class="content" contenteditable="true" ng-model="postit.text">{{postit.text}}</div>
+    </div>
+  </div>
 </div>
