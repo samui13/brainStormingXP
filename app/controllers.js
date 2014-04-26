@@ -201,6 +201,43 @@ storm.controller('StormCtrl',
 			      $scope.postits[id].pos_y = offset.top;
 			  }
 		      }
+		      $scope.moveGroup = function($event){
+			  //Group の移動処理
+			  var target = $($event.target);
+			  if(target.hasClass('group')){
+			      target.droppable(Groups.droppableOpt);
+			      target.draggable(Groups.draggableOpt);
+			      target.draggable('enable');
+			      var id = target.get(0).id;
+			      var offset = target.offset();
+			      $scope.groups[id].pos_x = offset.left;
+			      $scope.groups[id].pos_y = offset.top;
+			  }
+		      }
+		      $scope.colorGroup = function($event){
+			  var target = $($event.target);
+			  var id = target.get(0).id;
+			  if($(target).hasClass('draggablePostIt')){
+			      return false;
+			  }
+			  var c = $scope.groups.$child(id).$child('color');
+			  var colors = ['#fef4f4','#c4a3bf','#ebf6f7',
+					'#f8e58c','#ffffff','#f8b862'];
+			  var now = $('#'+id).css('background-color');
+			  var rgb2hex = function (rgb) {
+			      rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+			      function hex(x) {
+				  return ("0" + parseInt(x).toString(16)).slice(-2);
+			      }
+			      return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+			  }
+			  var colorIndex = ((colors.indexOf(rgb2hex(now))+1)%colors.length);
+			  var color = colors[colorIndex];
+			  c.$set(color).finally(function(){
+			      $("#"+id).css('background-color',color);
+			  });
+
+		      }
 		      angular.element(document).ready(function() {
 			  
 			  $(document).on('mouseout','.draggablePostIt',function(e){
@@ -214,18 +251,6 @@ storm.controller('StormCtrl',
 			  });
 			  
 			  // Group
-			  $(document).on('mouseover','.draggableGroup',function(e){
-			      if($(e.target).hasClass('group')){
-				  //
-				  $(this).droppable(Groups.droppableOpt);
-				  $(this).draggable(Groups.draggableOpt);
-				  $(this).draggable('enable');
-				  var id = $(this).get(0).id;
-				  var offset = $(this).offset();
-				  $scope.groups[id].pos_x = offset.left;
-				  $scope.groups[id].pos_y = offset.top;
-			      }
-			  });
 			  $(document).on('mouseout','.draggableGroup',function(e){
 			      $(this).draggable(Groups.draggableOpt);
 			      $(this).draggable('disable');
@@ -251,28 +276,6 @@ storm.controller('StormCtrl',
 			      });
 			  });
 
-			  $(document).on('dblclick','.draggableGroup',function(e){
-			      var id = $(e.target).get(0).id;
-			      if($(e.target).hasClass('draggablePostIt')){
-				  return false;
-			      }
-			      var c = $scope.groups.$child(id).$child('color');
-			      var colors = ['#fef4f4','#c4a3bf','#ebf6f7',
-					   '#f8e58c','#ffffff','#f8b862'];
-			      var now = $('#'+id).css('background-color');
-			      var rgb2hex = function (rgb) {
-				  rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-				  function hex(x) {
-				      return ("0" + parseInt(x).toString(16)).slice(-2);
-				  }
-				  return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
-			      }
-			      var colorIndex = ((colors.indexOf(rgb2hex(now))+1)%colors.length);
-			      var color = colors[colorIndex];
-			      c.$set(color).finally(function(){
-				  $("#"+id).css('background-color',color);
-			      });
-			  });
 			  $(".trash").droppable({
 			      drop:function(e,ui){
 				  var id = $(ui.draggable[0]).attr('id');

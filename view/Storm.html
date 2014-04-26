@@ -69,7 +69,7 @@
     <div class="content" contenteditable="true" ng-model="postit.text" ng-keyup="freshPostitTEXT($event);">{{postit.text}}</div>
   </div>
   
-  <div class="group droppableGroup draggableGroup" ng-repeat="group in groups | orderByPriority" id="{{group.$id}}" style="position:absolute;left:{{group.pos_x}}px;top:{{group.pos_y}}px;background-color:{{group.color}};">
+  <div class="group droppableGroup draggableGroup" ng-repeat="group in groups | orderByPriority" id="{{group.$id}}" ng-mouseover="moveGroup($event);" ng-dblclick="colorGroup($event);" style="position:absolute;left:{{group.pos_x}}px;top:{{group.pos_y}}px;background-color:{{group.color}};">
     <div class="content footer" contenteditable="true" ng-model="group.text" ng-keyup="freshGroupTEXT($event);">
       {{group.text}}
     </div>
