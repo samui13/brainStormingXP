@@ -13,8 +13,19 @@
 
 <div id="brestField">
   <div id="oneStorm" class="row">
-    <div ng-repeat="postit in postits | orderByPriority" class="draggablePostIt" style="margin-top:10px;margin-left:100px;background-color:{{postit.color}};" aria-disable="true">
-      <div class="content" contenteditable="true" ng-model="postit.text">{{postit.text}}</div>
+    <div ng-repeat="postit in postits | orderByPriority" class="col-md-6">
+      <div class="draggablePostIt" style="margin-top:10px;margin-left:100px;background-color:{{postit.color}};" aria-disable="true">
+	<div class="content" contenteditable="true" ng-model="postit.text">{{postit.text}}</div>
+      </div>
     </div>
+    
+    <div class="col-md-6" style="padding-top:10px;padding-left:20px;">
+      
+      <form>
+	<input type="button" value="追加" />
+	<input type="button" value="送信" ng-click="goStorm();" />
+      </form>
+    </div>
+
   </div>
 </div>

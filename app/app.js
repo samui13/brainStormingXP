@@ -23,7 +23,6 @@ stormApp.config(['$routeProvider',
 	    when('/brain/:roomID/storm',{
 		templateUrl:'view/StormOne.html',
 		controller:'StormOneCtrl',
-		   
 	    }).
 	    when('/login/:roomID',{
 		templateUrl:'view/addUser.html',
