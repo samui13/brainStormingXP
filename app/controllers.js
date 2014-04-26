@@ -142,7 +142,7 @@ storm.controller('StormCtrl',
 		      $scope.timerStart = function(){
 			  /*
 			  var mytimeout = $timeout($scope.onTimeout,1000);
-			  */
+ 			  */
 			  angdb.$child('timerDate').$set(parseInt((new Date)/1000)+parseInt($scope.count.$value));
 		      }
 		      $scope.timerDecrease = function(){
@@ -293,20 +293,7 @@ storm.controller('StormCtrl',
 				  $(".trashIcon").css('font-size','5em');
 			      },
 			  });
-			  /*
-			  $(document).on('mouseover','.trash',function(e){
-			      var id = $(this).get(0).id;
-			      var postit = $scope.postits.$child(id);
-			      console.log(id,$(e.target),$(this),e);
-			  });
-			  */
-			  
 		      });
-		      
-		      $scope.func = function(){
-			  $scope.test = DB.test;
-			  //DB.data.roomTheme = '';
-		      }
 		  }]);
 storm.controller('ColorModalCtrl',
 		 ['$scope','ColorService',
@@ -351,7 +338,8 @@ storm.controller('StormMakeCtrl',
 			  var room = ref.push({
 			      openPostit:false,
 			      timerDate:'NULL',
-			      timerCount:'300',
+			      timerCount:'NULL',
+			      ideaCount:'NULL',
 			      theme:this.theme,
 			      groups:"",
 			      postits:"",
@@ -376,3 +364,31 @@ storm.controller('StormMakeCtrl',
 		      };
 		  }]);
 
+storm.controller('StormWaitingCtrl',
+		 ['$scope','$routeParams','$location','RoomService',
+		  function($scope,$routeParams,$location,DB){
+		      $scope.roomID = $routeParams.roomID;
+		      var room = DB.getDB($scope.roomID);
+		      $scope.users = DB.getUsers();
+		      $scope.title = room.$child('theme');
+		      $scope.stormBegin = function(){
+			  console.log($scope.time);
+			  console.log($scope.ideacount);
+			  DB.getDB($scope.roomID).
+			      $child('ideaCount').
+			      $set($scope.ideacount);
+			  DB.getDB($scope.roomID).
+			      $child('timerDate').
+			      $set(parseInt((new Date)/1000)+
+				  parseInt($scope.time)*60);
+			  DB.getDB($scope.roomID).
+			      $child('timerCount').
+			      $set(parseInt($scope.time)*60);
+			  $location.path("/brain/"+$scope.roomID+"/storm");
+		      }
+		  }]);
+storm.controller('StormOneCtrl',
+		 ['$scope',
+		 function(){
+		     console.log("H");
+		 }]);

@@ -84,3 +84,13 @@
     background-color:#FAFAFA;
     //overflow:auto;
 }
+
+#pauseField{
+    padding-top:40px;
+}
+
+#pauseField .user{
+    padding: 0 100px;
+    font-size:150%;
+    padding: 20px 20px;
+}

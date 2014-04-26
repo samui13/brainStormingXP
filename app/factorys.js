@@ -16,6 +16,7 @@ angular.module('stormFactory',[]).factory('RoomService',['$firebase',function($f
 	var ref = new Firebase("https://localbrainst-samui13.firebaseio.com/");
 	var DB = $firebase(ref);
 	var room = DB.$child('rooms');
+    var roomID;
 	return {
 	    setPos : function(obj,x,y,objs){
 		var posx =  obj.$child('pos_x');
@@ -31,7 +32,14 @@ angular.module('stormFactory',[]).factory('RoomService',['$firebase',function($f
 	    },
 	    getRef: function(){
 		return room;
-	    }
+	    },
+	    getDB: function(id){
+		roomID = id;
+		return room.$child(id);
+	    },
+	    getUsers: function(){
+		return room.$child(roomID).$child("members");
+	    },
 	};
 
     }]);

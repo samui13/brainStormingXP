@@ -15,6 +15,16 @@ stormApp.config(['$routeProvider',
 		templateUrl:'view/Storm.html',
 		controller: 'StormCtrl',
 	    }).
+	    when('/brain/:roomID/waiting',{
+		templateUrl:'view/StormWaiting.html',
+		controller:'StormWaitingCtrl',
+		   
+	    }).
+	    when('/brain/:roomID/storm',{
+		templateUrl:'view/StormOne.html',
+		controller:'StormOneCtrl',
+		   
+	    }).
 	    when('/login/:roomID',{
 		templateUrl:'view/addUser.html',
 		controller: 'StormAddUserCtrl',

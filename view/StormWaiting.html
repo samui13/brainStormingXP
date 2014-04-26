@@ -1,0 +1,30 @@
+<div id="header">
+  <div class="row navbar-collapse">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+      <h2>待ち合いしつ:{{title.$value}}</h2>
+    </div>
+    <div class="col-md-4">
+    </div>
+  </div>
+</div>
+
+<div id="brestField">
+  <div id="pauseField" class="container">
+    <div class="row">
+      <div ng-repeat="user in users" style="background-color:{{user.color}};" class="col-md-6 user">
+	<img src="http://graph.facebook.com/yamanaka.osamu.7/picture?type=large" style="float:left;padding-right:30px;">
+	<span>
+	  <p>{{user.name}}</p>
+	</span>
+      </div>
+    </div>
+
+    <form>
+      <input type="text" name="time" value="1" ng-model="time" ng-init="time=1" />分間で、<br />
+      <input type="text" name="ideacount" value="5" ng-model="ideacount" ng-init="ideacount=5" />個アイディアをだして！！<br />
+      <input type="button" value="開始" ng-click="stormBegin();"/>
+    </form>
+  </div>
+</div>
