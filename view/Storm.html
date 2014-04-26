@@ -65,7 +65,7 @@
 
 <div id="brestField" ng-dblclick="createPostit($event);">
 
-  <div ng-repeat="postit in postits | orderByPriority|checkBelong:postit" id="{{postit.$id}}" class="draggablePostIt" style="position:absolute;left:{{postit.pos_x}}px;top:{{postit.pos_y}}px;background-color:{{postit.color}};" aria-disable="true">
+  <div ng-repeat="postit in postits | orderByPriority|checkBelong:postit" ng-mouseover="movePostit($event);" id="{{postit.$id}}" class="draggablePostIt" style="position:absolute;left:{{postit.pos_x}}px;top:{{postit.pos_y}}px;background-color:{{postit.color}};" aria-disable="true">
     <div class="content" contenteditable="true" ng-model="postit.text" ng-keyup="freshPostitTEXT($event);">{{postit.text}}</div>
   </div>
   
@@ -75,7 +75,7 @@
     </div>
     <!-- Postit Contents -->
 
-    <div ng-repeat="postit in postits | orderByPriority|check:group.$id" id="{{postit.$id}}" class="draggablePostIt" style="position:relative;background-color:{{postit.color}};" aria-disable="true">
+    <div ng-repeat="postit in postits | orderByPriority|check:group.$id" ng-mouseover="movePostit($event);" id="{{postit.$id}}" class="draggablePostIt" style="position:relative;background-color:{{postit.color}};" aria-disable="true">
       <div class="content" contenteditable="true" ng-model="postit.text" ng-keyup="freshPostitTEXT($event);">{{postit.text}}</div>
     </div>
 

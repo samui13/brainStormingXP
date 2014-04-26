@@ -185,23 +185,23 @@ storm.controller('StormCtrl',
 
 			      $scope.addPostIt($event.clientX,$event.clientY);
 		      }
-		      angular.element(document).ready(function() {
-			  // Postitの処理
-			  $(document).on('mouseover','.draggablePostIt',function(e){
-			      if(!$(e.target).hasClass('content')){
-				  $(this).draggable(PostIts.draggableOpt);
-				  $(this).draggable('enable');
-				  var id = $(this).get(0).id;
-				  var offset = $(this).offset();
-				  
-				  if(!(id in $scope.postits)){
-				      angdb.$child('postits').$bind($scope,'postits');
-				      console.log(id in $scope.postits);
-				  }
-				  $scope.postits[id].pos_x = offset.left;
-				  $scope.postits[id].pos_y = offset.top;				  
+		      $scope.movePostit = function($event){
+			  // Postitの移動処理
+			  var target = $($event.target);
+			  if(!target.hasClass('content')){
+			      target.draggable(PostIts.draggableOpt);
+			      target.draggable('enable');
+			      var id = target.get(0).id;
+			      var offset = target.offset();
+			      if(target.parent().hasClass('group')){
+				  $scope.postits[id].group_id = "";
 			      }
-			  });
+
+			      $scope.postits[id].pos_x = offset.left;
+			      $scope.postits[id].pos_y = offset.top;
+			  }
+		      }
+		      angular.element(document).ready(function() {
 			  
 			  $(document).on('mouseout','.draggablePostIt',function(e){
 			      $(this).draggable(PostIts.draggableOpt);
