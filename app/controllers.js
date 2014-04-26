@@ -166,6 +166,16 @@ storm.controller('StormCtrl',
 		      
 		      $scope.owner = $cookies[$scope.roomID+'.flag'];
 		      ///$scope.owner = 'false';
+		      $scope.freshPostitTEXT = function($event){
+			  var id = ($($event.currentTarget).offsetParent()).get(0).id;
+			  var text = $($event.target).get(0).textContent;
+			  $scope.postits[id].text = text;
+		      }
+		      $scope.freshGroupTEXT = function($event){
+			  var id = ($($event.currentTarget).offsetParent()).get(0).id;
+			  var text = $($event.target).get(0).textContent;
+			  $scope.groups[id].text = text;
+		      }
 		      angular.element(document).ready(function() {
 			  // Postit 作成
 			  $(document).on('dblclick','#brestField',function(e){
@@ -263,21 +273,6 @@ storm.controller('StormCtrl',
 				  $("#"+id).css('background-color',color);
 			      });
 			  });
-			  
-			  $(document).on('keyup','.draggablePostIt',function(e){
-			      var id = $(this).get(0).id;
-			      //console.log("Postit",$(this).children(0));
-			      var text = $(this).children(0).text();
-			      $scope.postits[id].text = text;
-			  });
-			  
-
-			  $(document).on('keyup','.draggableGroup',function(e){
-			      var id = $(this).get(0).id;
-			      var text = $($(this).children(0)[0]).text();
-			      $scope.groups[id].text = text;
-			  });
-			  
 			  $(".trash").droppable({
 			      drop:function(e,ui){
 				  var id = $(ui.draggable[0]).attr('id');
