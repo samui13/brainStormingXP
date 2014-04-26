@@ -30,7 +30,7 @@ storm.controller('StormAddUserCtrl',
 			  });
 			  $cookies[$scope.roomID+'.color'] = $scope.ccolor;
 			  $cookies[$scope.roomID+'.flag'] = 'false';
-			  $location.path("brain/"+$scope.roomID);
+			  $location.path("brain/"+$scope.roomID+"/waiting");
 		      }
 		  }]);
 // brain/:hash
@@ -359,7 +359,7 @@ storm.controller('StormMakeCtrl',
 			  $cookies[data.ID+'.title'] = 'test';
 			  $cookies[data.ID+'.color'] = '#FF0000';
 			  $cookies[data.ID+'.flag'] = 'true';
-			  $location.path("/brain/"+data.ID);
+			  $location.path("/brain/"+data.ID+"/waiting");
 
 		      };
 		  }]);
