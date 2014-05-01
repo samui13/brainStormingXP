@@ -69,8 +69,20 @@ storm.controller('StormWaitingCtrl',
 		 ['$scope','$routeParams','$location','$cookies','RoomService',
 		  function($scope,$routeParams,$location,$cookies,DB){
 		      $scope.roomID = $routeParams.roomID;
-		      //if($cookies[$scope.roomID+'.name'])
-			  //$location.path("login/"+$scope.roomID);
+		      if(!$cookies[$scope.roomID+'.name']){
+			  $location.path("/login/"+$scope.roomID);
+		      }
+		      $scope.owner = $cookies[$scope.roomID+'.flag'];		      
+		      $scope.timer = DB.getDB($scope.roomID).$child('timerDate');
+		      $scope.timer.$on("change",function(){
+			  console.log("C");
+			  if($scope.flag != true){
+			      $scope.flag = true;
+			      return;
+			  }
+			  $location.path("/brain/"+$scope.roomID+"/storm");
+		      });
+		      
 		      
 		      var room = DB.getDB($scope.roomID);
 		      $scope.users = DB.getUsers();
@@ -84,7 +96,7 @@ storm.controller('StormWaitingCtrl',
 			  DB.getDB($scope.roomID).
 			      $child('timerDate').
 			      $set(parseInt((new Date)/1000)+
-				  parseInt($scope.time)*60);
+				   parseInt($scope.time)*60);
 			  DB.getDB($scope.roomID).
 			      $child('timerCount').
 			      $set(parseInt($scope.time)*60);

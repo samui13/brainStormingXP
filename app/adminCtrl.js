@@ -36,6 +36,7 @@ angular.
 			  $cookies[data.ID+'.title'] = 'test';
 			  $cookies[data.ID+'.color'] = '#FF0000';
 			  $cookies[data.ID+'.flag'] = 'true';
+			  console.log($cookies[data.ID+'.name']);
 			  $location.path("/brain/"+data.ID+"/waiting");
 
 		      };
