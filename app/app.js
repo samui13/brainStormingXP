@@ -2,7 +2,9 @@ var stormApp = angular.module('stormApp',[
     'firebase',
     'ngRoute',
     'ngCookies',
-    'stormControllers'
+    'stormControllers',
+    'stormCtrl',
+    'adminControllers'
 ]);
 stormApp.config(['$routeProvider',
     function($routeProvider){
