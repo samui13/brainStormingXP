@@ -7,7 +7,7 @@ storm.controller('StormAddUserCtrl',
 		  function($scope,$location,$routeParams,$cookies,$cookieStore,DB,ColorDB){
 		      $scope.roomID = $routeParams.roomID;
 		      if($cookies[$scope.roomID+'.name'])
-			  $location.path("brain/"+$scope.roomID);
+			  $location.path("brain/"+$scope.roomID+"/waiting");
 		      $scope.$watch(function(){
 			  return ColorDB.getColor()
 		      },function(){
@@ -59,12 +59,26 @@ storm.controller('StormCtrl',
 		      $scope.theme = angdb.$child('theme');
 		      $scope.open = angdb.$child('openPostit');
 		      //$scope.postits = angdb.$child('postits');
-		      angdb.$child('postits').$bind($scope,'postits');
+		      angdb.$child('postits').$bind($scope,'postits').then(function(){
+			  /*
+			  var count = 0;
+			  for(var key in $scope.postits){
+			      var postit = $scope.postits[key];
+			      if(typeof postit !== "object")
+				  continue
+			      postit.pos_x = 30+(count%4)*260;
+			      postit.pos_y = 100+Math.floor(count/4)*50;
+			      count+=1;
+			  }
+			  */
+		      });
 		      //$scope.groups = angdb.$child('groups');
 		      angdb.$child('groups').$bind($scope,'groups');
 		      // えらーしょりひつよう
 		      // User Add してないなら；
 		      $scope.user =  $cookies[$scope.roomID+'.name'];
+		      
+
 		      if(typeof $scope.roomID !== 'undefined'){
 			  //redirect
 		      }
@@ -365,9 +379,12 @@ storm.controller('StormMakeCtrl',
 		  }]);
 
 storm.controller('StormWaitingCtrl',
-		 ['$scope','$routeParams','$location','RoomService',
-		  function($scope,$routeParams,$location,DB){
+		 ['$scope','$routeParams','$location','$cookies','RoomService',
+		  function($scope,$routeParams,$location,$cookies,DB){
 		      $scope.roomID = $routeParams.roomID;
+		      //if($cookies[$scope.roomID+'.name'])
+			  //$location.path("login/"+$scope.roomID);
+		      
 		      var room = DB.getDB($scope.roomID);
 		      $scope.users = DB.getUsers();
 		      $scope.title = room.$child('theme');
@@ -399,22 +416,30 @@ storm.controller('StormOneCtrl',
 		     $scope.ideaCount = room.$child('ideaCount');
 		     $scope.ideaCount.$on("loaded",function(){
 			 for(var i = 0; i < $scope.ideaCount.$value; i++){
-			     $scope.postits.push({
+			     $scope.addPostit();
+			     //$scope.postits.push();
+			 }
+		     });
+		     $scope.addPostit = function(){
+			 $scope.postits.push({
 				 color:$cookies[$scope.roomID+'.color'],
 				 created_id: parseInt((new Date)/1000), // 作成時間				
 				 editor_id:"",
 				 holding_id: $cookies[$scope.roomID+'.member_id'], // UserID
 				 text:'IDEA',
 				 group_id:"",
-				 pos_x:219.89999389648438,
-				 pos_y:186.39999389648438,
-			     });
-			 }
-		     });
+				 pos_x:0,
+				 pos_y:0,
+			 });
+		     }
 		     $scope.goStorm = function(){
 			 var postits = room.$child('postits');
+			 var count = postits.$getIndex().length;
 			 for(var key in $scope.postits){
+			     $scope.postits[key].pos_x = 30+(count%4)*260;
+			     $scope.postits[key].pos_y = 100+Math.floor(count/4)*50;
 			     postits.$add($scope.postits[key]);
+			     count+=1;
 			 }
 			 $location.path("/brain/"+$scope.roomID);
 		     };
