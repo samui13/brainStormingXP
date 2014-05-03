@@ -77,62 +77,8 @@ angular.
 		    $scope.viewSheet = function(){
 			//userUI.viewSheet()
 		    }
-		    $scope.round = Math.floor;
 		    $scope.count = angdb.$child('timerCount');
-		    $scope.UnixEndTime = angdb.$child('timerDate');
-		    
-		    $scope.onTimeout = function(){
-			// 2度おし防止
-			if(typeof mytimeout !== 'undefined')
-			    $timeout.cancel(mytimeout);
-			$scope.count--;
-			if ($scope.count >= 0)
-			    mytimeout = $timeout($scope.onTimeout,1000);
-			else
-			    $timeout.cancel(mytimeout);
-		    }
-		    
-		    $scope.UnixTime = function(){
-			return parseInt((new Date)/1000);
-		    }
-		    $scope.timer = function(){
-			$scope.mytimeout = $timeout($scope.timer,1000);
-			if (parseInt($scope.UnixEndTime.$value) < $scope.UnixTime()){
-			    $scope.time = 0;
-			    //$timeout.cancel($scope.mytimeout);
-			    return;
-			}
-			$scope.time = parseInt($scope.UnixEndTime.$value)-$scope.UnixTime();
-		    };
-		    $scope.mytimeout = $timeout($scope.timer,1000);
-
-		    $scope.timerStart = function(){
-			/*
-			  var mytimeout = $timeout($scope.onTimeout,1000);
- 			*/
-			angdb.$child('timerDate').$set(parseInt((new Date)/1000)+parseInt($scope.count.$value));
-		    }
-		    $scope.timerDecrease = function(){
-			if(typeof mytimeout !== 'undefined' && $timeout.cancel(mytimeout) == true){
-			    $scope.timerStart();
-			    return;
-			}
-			$scope.count.$value-=60;
-		    }
-		    $scope.timerIncrease = function(){
-			if(typeof mytimeout !== 'undefined' && $timeout.cancel(mytimeout) == true){
-			    $scope.timerStart();
-			    return;
-			}
-			$scope.count.$value+=60;
-		    }
-		    $scope.timerStop = function(){
-			$timeout.cancel(mytimeout);
-
-		    }
-		    
 		    $scope.owner = $cookies[$scope.roomID+'.flag'];
-		    ///$scope.owner = 'false';
 		    $scope.freshPostitTEXT = function($event){
 			var id = ($($event.currentTarget).offsetParent()).get(0).id;
 			var text = $($event.target).get(0).textContent;

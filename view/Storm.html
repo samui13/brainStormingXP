@@ -48,17 +48,6 @@
       <a href ng-click="addGroup()"><span class="glyphicon glyphicon-file"></span></a>
     </div>
     <div class="col-md-2 UI">
-      <div ng-if="owner">
-	<a href ng-click="timerDecrease()"><span class="glyphicon glyphicon-chevron-left"></span></a>
-	<a href ng-click="timerStart()"><span class="glyphicon glyphicon-play"></span></a>
-	<a href ng-click="timerStop()"><span class="glyphicon glyphicon-pause"></span></a>
-	<a href ng-click="timerIncrease()"><span class="glyphicon glyphicon-chevron-right"></span></a>
-      </div>
-      <div class="">
-	<!--<span style="padding-left:12px">{{round((UnixEndTime.$value-UnixTime())/60)}}:{{(UnixEndTime.$value-UnixTime())%60}}</span>-->
-	<span style="padding-left:12px">{{round(time/60)}}:{{(time)%60}}</span>
-      </div>
-
     </div>    
   </div>
 </div>
