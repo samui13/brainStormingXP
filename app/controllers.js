@@ -117,18 +117,27 @@ storm.controller('StormOneCtrl',
 		      $scope.title = room.$child('theme');
 		      $scope.timerDate = room.$child('timerDate')
 		      $scope.timerDate.$on("loaded",function(){
+			  $scope.time = $scope.timerDate.$value-$scope.unixDate();	  
+			  if($scope.timer<0)
+			      $location.path("/brain/"+$scope.roomID);
 			  $scope.timer();	  
 		      });
 		      
 		      $scope.unixDate = function(){
 			  return parseInt(new Date/1000);
 		      }
-		      $scope.round = Math.round;
+		      $scope.floor = Math.floor;
 		      $scope.timer = function(){
 			  $scope.mytimeout = $timeout($scope.timer,1000);
 			  $scope.time = $scope.timerDate.$value-$scope.unixDate();	  
-			  if($scope.timer < 0){
-			      $timeout.cancel(mytimeout);
+			  if($scope.time < 10){
+			      $('.countDown').
+				  text($scope.time).
+				  css('display','inline');
+			      
+			  }
+			  if($scope.time < 0){
+			      $timeout.cancel($scope.mytimeout);
 			      $scope.goStorm();
 			  }
 		      }

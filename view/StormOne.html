@@ -21,9 +21,13 @@
 	<input type="button" value="ポストイット追加" ng-click="addPostit();" />
 	<input type="button" value="送信" ng-click="goStorm();" />
       </form>
-      {{round(time/60)}}:{{time%60}}
+      <h4>制限時間 : {{floor(time/60)}}:{{time%60}}</h4>
     </div>
 
   </div>
 </div>
 
+
+<div class="countDown" style="display:none;position:absolute;top:0px;left: 40%;font-size:2000%;">
+  <p>10</p>
+</div>
