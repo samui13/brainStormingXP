@@ -1,19 +1,15 @@
-<div id="header">
-  <div class="row navbar-collapse">
-    <div class="col-md-4">
-    </div>
-    <div class="col-md-4">
-      <h2>アイディアだして頂戴:{{title.$value}}</h2>
-    </div>
-    <div class="col-md-4">
+<link rel="stylesheet" href="./css/index.css"></link>
+<div class="oneStorm">
+  <div id="header">
+    <div class="row navbar-collapse">
+      <div style="text-align: center;">
+	<h2>アイディアだして頂戴:{{title.$value}}</h2>
+      </div>
     </div>
   </div>
-</div>
 
-
-<div id="brestField">
-  <div id="oneStorm" class="row">
-    <div ng-repeat="postit in postits | orderByPriority" class="col-md-3">
+  <div id="storm" class="row">
+    <div ng-repeat="postit in postits | orderByPriority" class="col-md-3" style="margin-top:20px;">
       <div class="draggablePostIt" style="background-color:{{postit.color}};" aria-disable="true">
 	<div class="content" contenteditable="true" ng-model="postit.text">{{postit.text}}</div>
       </div>
@@ -22,10 +18,11 @@
     <div class="col-md-12" style="padding-top:10px;padding-left:20px;">
       
       <form>
-	<input type="button" value="アイデイア追加" ng-click="addPostit();" />
+	<input type="button" value="ポストイット追加" ng-click="addPostit();" />
 	<input type="button" value="送信" ng-click="goStorm();" />
       </form>
     </div>
 
   </div>
 </div>
+

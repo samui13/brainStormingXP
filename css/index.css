@@ -64,7 +64,8 @@ h2.subtitle {
 	vertical-align: middle;
 }
 
-.top .form_input {
+.top .form_input ,
+.waiting .form_input{
 	border:0;
 	padding:12px;
 	font-size:1.3em;
@@ -82,7 +83,8 @@ h2.subtitle {
 	margin-bottom:12px;
 }
 
-.button {
+.top .button,
+.waiting .button{
 	background:url(../img/btn_start_off.png);
 	width:288px;
 	height:64px;
@@ -144,4 +146,21 @@ button.button:hover {
 
 // Add User Page
 span.box{
+}
+
+
+
+.waiting,
+.oneStorm{
+    background-image: url("../img/bg_bs.png");
+    background-repeat: repeat;   
+    // けせ
+    height:auto;
+}
+.waiting #member,
+.oneStorm #storm{
+    padding: 40px 0px;
+}
+.waiting form{
+    padding-top: 20px;
 }

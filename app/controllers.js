@@ -73,6 +73,8 @@ storm.controller('StormWaitingCtrl',
 			  $location.path("/login/"+$scope.roomID);
 		      }
 		      $scope.owner = $cookies[$scope.roomID+'.flag'];		      
+		      $scope.time = 1;
+		      $scope.ideacount = 5;
 		      $scope.timer = DB.getDB($scope.roomID).$child('timerDate');
 		      $scope.timer.$on("change",function(){
 			  console.log("C");
@@ -117,7 +119,6 @@ storm.controller('StormOneCtrl',
 		     $scope.ideaCount.$on("loaded",function(){
 			 for(var i = 0; i < $scope.ideaCount.$value; i++){
 			     $scope.addPostit();
-			     //$scope.postits.push();
 			 }
 		     });
 		     $scope.addPostit = function(){
