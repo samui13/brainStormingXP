@@ -21,7 +21,7 @@
 	<input type="button" value="ポストイット追加" ng-click="addPostit();" />
 	<input type="button" value="送信" ng-click="goStorm();" />
       </form>
-      {{time}}
+      {{round(time/60)}}:{{time%60}}
     </div>
 
   </div>

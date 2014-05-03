@@ -115,16 +115,24 @@ storm.controller('StormOneCtrl',
 		      $scope.roomID = $routeParams.roomID;
 		      var room = DB.getDB($scope.roomID);
 		      $scope.title = room.$child('theme');
-		      $scope.timerDate = room.$child('timerDate');
+		      $scope.timerDate = room.$child('timerDate')
+		      $scope.timerDate.$on("loaded",function(){
+			  $scope.timer();	  
+		      });
+		      
 		      $scope.unixDate = function(){
 			  return parseInt(new Date/1000);
 		      }
-		      
+		      $scope.round = Math.round;
 		      $scope.timer = function(){
 			  $scope.mytimeout = $timeout($scope.timer,1000);
 			  $scope.time = $scope.timerDate.$value-$scope.unixDate();	  
+			  if($scope.timer < 0){
+			      $timeout.cancel(mytimeout);
+			      $scope.goStorm();
+			  }
 		      }
-		      $scope.mytimeout = $timeout($scope.timer,1000);
+		      
 		      
 		      $scope.postits = [];
 		      $scope.ideaCount = room.$child('ideaCount');
