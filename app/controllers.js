@@ -72,12 +72,14 @@ storm.controller('StormWaitingCtrl',
 		      if(!$cookies[$scope.roomID+'.name']){
 			  $location.path("/login/"+$scope.roomID);
 		      }
-		      $scope.owner = $cookies[$scope.roomID+'.flag'];		      
+		      $scope.owner = $cookies[$scope.roomID+'.flag'];
+		      if($scope.owner != 'true'){
+			  $('.waitingForm').css('display','none');
+		      }
 		      $scope.time = 1;
 		      $scope.ideacount = 5;
 		      $scope.timer = DB.getDB($scope.roomID).$child('timerDate');
 		      $scope.timer.$on("change",function(){
-			  console.log("C");
 			  if($scope.flag != true){
 			      $scope.flag = true;
 			      return;

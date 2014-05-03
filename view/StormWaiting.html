@@ -26,12 +26,13 @@
       <div ng-if="owner!='true'">
 	<h3>部屋を作った人が初めるまで待ってください。</h3>
       </div>
-      <div ng-if="owner == 'true'">
+      <div class="waitingForm">
 	<form>
 	  <input type="text" name="time" value="1" ng-model="time" ng-init="time=1" class="form_input" />分間で、<br />
 	  <input type="text" name="ideacount" value="5" ng-model="ideacount" ng-init="ideacount=5" class="form_input" />個アイディアをだして！！<br />
 	  <input type="button" ng-click="stormBegin();" class="button" />
-	</form>
+	</form>	
       </div>
+      
     </div>
   </div>
