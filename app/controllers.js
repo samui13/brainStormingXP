@@ -5,6 +5,7 @@ if(typeof stormControllers === 'undefined'){
 storm.controller('StormAddUserCtrl',
 		 ['$scope','$location','$routeParams','$cookies','$cookieStore','RoomService','ColorService',
 		  function($scope,$location,$routeParams,$cookies,$cookieStore,DB,ColorDB){
+		      console.log($timeout);
 		      $scope.roomID = $routeParams.roomID;
 		      if($cookies[$scope.roomID+'.name'])
 			  $location.path("brain/"+$scope.roomID+"/waiting");
@@ -109,42 +110,51 @@ storm.controller('StormWaitingCtrl',
 		  }]);
 // ひとりでやるやーつ
 storm.controller('StormOneCtrl',
-		 ['$scope','$routeParams','$location','$cookies','RoomService',
-		 function($scope,$routeParams,$location,$cookies,DB){
-		     $scope.roomID = $routeParams.roomID;
-		     var room = DB.getDB($scope.roomID);
-		     console.log(room.$child('ideaCount'));
-		     $scope.title = room.$child('theme');
-		     $scope.timerDate = room.$child('timerDate');
-		     $scope.postits = [];
-		     $scope.ideaCount = room.$child('ideaCount');
-		     $scope.ideaCount.$on("loaded",function(){
-			 for(var i = 0; i < $scope.ideaCount.$value; i++){
-			     $scope.addPostit();
-			 }
-		     });
-		     $scope.addPostit = function(){
-			 $scope.postits.push({
-				 color:$cookies[$scope.roomID+'.color'],
-				 created_id: parseInt((new Date)/1000), // 作成時間				
-				 editor_id:"",
-				 holding_id: $cookies[$scope.roomID+'.member_id'], // UserID
-				 text:'IDEA',
-				 group_id:"",
-				 pos_x:0,
-				 pos_y:0,
-			 });
-		     }
-		     $scope.goStorm = function(){
-			 var postits = room.$child('postits');
-			 var count = postits.$getIndex().length;
-			 for(var key in $scope.postits){
-			     $scope.postits[key].pos_x = 30+(count%4)*260;
-			     $scope.postits[key].pos_y = 100+Math.floor(count/4)*50;
-			     postits.$add($scope.postits[key]);
-			     count+=1;
-			 }
-			 $location.path("/brain/"+$scope.roomID);
-		     };
-		     
-		 }]);
+		 ['$scope','$routeParams','$location','$cookies','RoomService','$timeout',
+		  function($scope,$routeParams,$location,$cookies,DB,$timeout){
+		      $scope.roomID = $routeParams.roomID;
+		      var room = DB.getDB($scope.roomID);
+		      $scope.title = room.$child('theme');
+		      $scope.timerDate = room.$child('timerDate');
+		      $scope.unixDate = function(){
+			  return parseInt(new Date/1000);
+		      }
+		      
+		      $scope.timer = function(){
+			  $scope.mytimeout = $timeout($scope.timer,1000);
+			  $scope.time = $scope.timerDate.$value-$scope.unixDate();	  
+		      }
+		      $scope.mytimeout = $timeout($scope.timer,1000);
+		      
+		      $scope.postits = [];
+		      $scope.ideaCount = room.$child('ideaCount');
+		      $scope.ideaCount.$on("loaded",function(){
+			  for(var i = 0; i < $scope.ideaCount.$value; i++){
+			      $scope.addPostit();
+			  }
+		      });
+		      $scope.addPostit = function(){
+			  $scope.postits.push({
+			      color:$cookies[$scope.roomID+'.color'],
+			      created_id: parseInt((new Date)/1000), // 作成時間				
+			      editor_id:"",
+			      holding_id: $cookies[$scope.roomID+'.member_id'], // UserID
+			      text:'IDEA',
+			      group_id:"",
+			      pos_x:0,
+			      pos_y:0,
+			  });
+		      }
+		      $scope.goStorm = function(){
+			  var postits = room.$child('postits');
+			  var count = postits.$getIndex().length;
+			  for(var key in $scope.postits){
+			      $scope.postits[key].pos_x = 30+(count%4)*260;
+			      $scope.postits[key].pos_y = 100+Math.floor(count/4)*50;
+			      postits.$add($scope.postits[key]);
+			      count+=1;
+			  }
+			  $location.path("/brain/"+$scope.roomID);
+		      };
+		      
+		  }]);
