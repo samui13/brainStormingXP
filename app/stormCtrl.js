@@ -8,7 +8,7 @@ angular.
 		    // ここはえらーしょりなくてもいいかも
 		    $scope.roomID = $routeParams.roomID;
 		    if(!$cookies[$scope.roomID+'.name']){
-			console.log("Need Login");
+			// Need Login
 			$location.path("/login/"+$scope.roomID);
 		    }
 		    $scope.ShowSlide = function(){
@@ -109,7 +109,6 @@ angular.
 			    if(target.parent().hasClass('group')){
 				$scope.postits[id].group_id = "";
 			    }
-
 			    $scope.postits[id].pos_x = offset.left;
 			    $scope.postits[id].pos_y = offset.top;
 			}
