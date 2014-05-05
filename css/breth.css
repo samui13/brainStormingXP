@@ -1,9 +1,15 @@
+html,body { 
+    height:100%; 
+}
+#contents{
+    height:100%;
+}
 #header{
     background-color: #000000;
     color: #000000;
     padding-bottom:4px;
 }
-#header > .row{
+#header > .navbar-collapse{
     background-color: #FFCC00;
     color: #FFFFFF;
 }
@@ -93,4 +99,65 @@
     padding: 0 100px;
     font-size:150%;
     padding: 20px 20px;
+}
+
+.top form {
+	position:relative;
+	top: -100px;
+}
+
+.top .form_ttl {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.top .form_input ,
+.waiting .form_input{
+	border:0;
+	padding:12px;
+	font-size:1.3em;
+	font-family:Arial, sans-serif;
+	color:#000;
+	border:solid 4px #000;
+	margin:0 30px 4px 10px;
+	width:400px;
+	box-shadow: 4px 4px #000;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-bottom:12px;
+}
+
+.top .button,
+.waiting .button{
+	background:url(../img/btn_start_off.png);
+	width:288px;
+	height:64px;
+	border:0;
+
+}
+
+.waiting,
+.oneStorm{
+    height:100%;
+
+}
+.waiting #member,
+.oneStorm #storm{
+    padding: 40px 0px;
+}
+.waiting #member .waitingForm{
+
+}
+
+.waiting form{
+    padding-top: 20px;
+}
+
+#member{
+    background-image: url("../img/bg_bs.png");
+    background-repeat: repeat;   
+    height: 100%;
 }

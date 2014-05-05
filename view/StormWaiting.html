@@ -1,15 +1,9 @@
-<link rel="stylesheet" href="./css/index.css"></link>
+<!--<link rel="stylesheet" href="./css/index.css"></link>-->
 
 <div class="waiting">
   <div id="header">
-    <div class="row navbar-collapse">
-      <div class="col-md-4">
-      </div>
-      <div class="col-md-4">
-	<h2>待ち合い室:{{title.$value}}</h2>
-      </div>
-      <div class="col-md-4">
-      </div>
+    <div class="navbar-collapse text-center">
+      <h2>待ち合い室:{{title.$value}}</h2>
     </div>
   </div>
 
@@ -23,10 +17,12 @@
 	  </span>
 	</div>
       </div>
+
       <div ng-if="owner!='true'">
 	<h3>部屋を作った人が初めるまで待ってください。</h3>
       </div>
-      <div class="waitingForm">
+
+      <div class="waitingForm text-center">
 	<form>
 	  <input type="text" name="time" value="1" ng-model="time" ng-init="time=1" class="form_input" />分間で、<br />
 	  <input type="text" name="ideacount" value="5" ng-model="ideacount" ng-init="ideacount=5" class="form_input" />個アイディアをだして！！<br />
@@ -36,3 +32,4 @@
       
     </div>
   </div>
+</div>

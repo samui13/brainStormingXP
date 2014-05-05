@@ -149,18 +149,3 @@ span.box{
 }
 
 
-
-.waiting,
-.oneStorm{
-    background-image: url("../img/bg_bs.png");
-    background-repeat: repeat;   
-    // けせ
-    height:auto;
-}
-.waiting #member,
-.oneStorm #storm{
-    padding: 40px 0px;
-}
-.waiting form{
-    padding-top: 20px;
-}
