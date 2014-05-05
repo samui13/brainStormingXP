@@ -116,6 +116,7 @@ storm.controller('StormOneCtrl',
 		      var room = DB.getDB($scope.roomID);
 		      $scope.title = room.$child('theme');
 		      $scope.timerDate = room.$child('timerDate')
+		      $scope.time = 0;
 		      $scope.timerDate.$on("loaded",function(){
 			  $scope.time = $scope.timerDate.$value-$scope.unixDate();	  
 			  if($scope.timer<0)

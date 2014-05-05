@@ -142,8 +142,8 @@ html,body {
 .waiting,
 .oneStorm{
     height:100%;
-
 }
+
 .waiting #member,
 .oneStorm #storm{
     padding: 40px 0px;
@@ -155,9 +155,17 @@ html,body {
 .waiting form{
     padding-top: 20px;
 }
-
-#member{
+.oneStorm #storm,
+.waiting #member{
     background-image: url("../img/bg_bs.png");
     background-repeat: repeat;   
     height: 100%;
+}
+.oneStorm #storm .button{
+    font-size:1.4em;
+    font-weight: bold;
+    padding: 15px 35px;
+    background-color: #FFC500;
+    color: #fff;
+    border-style: none;
 }
