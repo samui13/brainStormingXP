@@ -10,7 +10,7 @@
   <div id="storm">
     <div ng-repeat="postit in postits | orderByPriority" class="col-md-3" style="margin-top:20px;">
       <div class="draggablePostIt" style="background-color:{{postit.color}};" aria-disable="true">
-	<div class="content" contenteditable="true" ng-model="postit.text">{{postit.text}}</div>
+	<div class="content" contenteditable="true" ng-model="postit.text" no-line-breaks="true" style="display:block"></div>
       </div>
     </div>
     

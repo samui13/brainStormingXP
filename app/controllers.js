@@ -1,5 +1,5 @@
 if(typeof stormControllers === 'undefined'){
-    var storm = angular.module('stormControllers',['stormFilter','stormFactory','stormTest','ui.bootstrap']);
+    var storm = angular.module('stormControllers',['stormFilter','stormFactory','stormTest','ui.bootstrap','contenteditable']);
 }
 
 storm.controller('StormAddUserCtrl',
@@ -174,5 +174,6 @@ storm.controller('StormOneCtrl',
 			  }
 			  $location.path("/brain/"+$scope.roomID);
 		      };
+
 		      
 		  }]);
