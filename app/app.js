@@ -6,8 +6,9 @@ var stormApp = angular.module('stormApp',[
     'stormCtrl',
     'adminControllers'
 ]);
-stormApp.config(['$routeProvider',
-    function($routeProvider){
+stormApp.config(['$locationProvider','$routeProvider',
+    function($locationProvider,$routeProvider){
+	$locationProvider.hashPrefix('!');
 	$routeProvider.
 	    when('/',{
 		templateUrl:'view/makeStorm.html',
