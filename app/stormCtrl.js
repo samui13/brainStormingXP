@@ -79,16 +79,7 @@ angular.
 		    }
 		    $scope.count = angdb.$child('timerCount');
 		    $scope.owner = $cookies[$scope.roomID+'.flag'];
-		    $scope.freshPostitTEXT = function($event){
-			var id = ($($event.currentTarget).offsetParent()).get(0).id;
-			var text = $($event.target).get(0).textContent;
-			$scope.postits[id].text = text;
-		    }
-		    $scope.freshGroupTEXT = function($event){
-			var id = ($($event.currentTarget).offsetParent()).get(0).id;
-			var text = $($event.target).get(0).textContent;
-			$scope.groups[id].text = text;
-		    }
+
 		    $scope.createPostit = function($event){
 			// Dblclickで Postit 作成
 			var target = $($event.target);
