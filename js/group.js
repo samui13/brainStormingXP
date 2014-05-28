@@ -1,12 +1,10 @@
 Groups = {};
-Groups.list = [];
-Groups.fn = {};
 Groups.droggableOpt = {
     zIndex:3,
 }
 Groups.droppableOpt = {
     drop:function(e,ui){
-	$(this).css('z-index',2);
+  	$(this).css('z-index',2);
 	var obj = ui.draggable;
 	if(!$(obj.parent().get(0)).hasClass('group')){
 	    var obj = ui.draggable.appendTo($(this));
@@ -23,7 +21,6 @@ Groups.droppableOpt = {
 	if($(obj.parent().get(0)).hasClass('group')){
 	    var offset = $(this).offset()
 	    obj.offset({
-
 	    })
 	    //obj.offset().top;
 	    if(obj.offset().top<0)
@@ -61,58 +58,3 @@ Groups.droppableOpt = {
 	*/
     }
 };
-Groups.__template = '\
-<div id="group-{{data.id}}" class="group droppableGroup draggableGroup" style="">\n\
-<div class="footer" contenteditable="true"><h3>{{data.tag}}</h3></div>\n\
-</div>\n\
-';
-Groups.fn.create = function(params){
-    var obj = {
-	id:-1,
-	x:0,
-	y:0,
-	tag:'',
-	color:'#A0A0A0',
-	elem:{},
-    };
-    for(var key in params){
-	obj[key] = params[key];
-    }
-    obj.id = Groups.list.length;
-    obj.view = function(){
-	var rawHtml = Mustache.render(Groups.__template,{
-	    data:obj,
-	});
-	return rawHtml;
-    };
-
-    obj.render = function(elem){
-	var raw = obj.view();
-	obj.elem = $(raw);
-	obj.elem.appendTo(elem);
-	obj.x = obj.elem.offset().left;
-	obj.y = obj.elem.offset().right;
-    };
-    obj.setEnv = function(){
-	obj.elem.droppable(Groups.droppableOpt);
-	obj.elem.draggable(Groups.draggableOpt);
-	obj.elem.on('mouseover',function(e){
-	    if($(e.toElement)){
-	    }
-	    if(!$(e.toElement).hasClass('content')){
-		obj.elem.draggable('enable');
-	    }
-	    if($(e.target).get(0).id==""){
-		obj.elem.draggable('disable');
-	    }
-	});
-	obj.elem.on('mouseout',function(e){
-	    obj.elem.draggable('disable');
-	});
-	///obj.elem.draggable('disable');
-    }
-    Groups.list.push(obj);
-    return obj;
-    
-};
-
