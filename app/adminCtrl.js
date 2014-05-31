@@ -17,12 +17,12 @@ angular.
 			      timerDate:'NULL',
 			      timerCount:'NULL',
 			      ideaCount:'NULL',
-			      theme:this.theme,
+			      theme:$scope.theme,
 			      groups:"",
 			      postits:"",
 			  });
 			  var memberData = room.child('members').push({
-			      name:this.name,
+			      name:$scope.name,
 			      color:$scope.ccolor,
 			      owner_flag:'true',
 			  });
@@ -31,12 +31,11 @@ angular.
 			  data.ID = room.name();
 			  data.member_id = memberData.name();
 			  //this.text
-			  $cookies[data.ID+'.name'] = this.name;
+			  $cookies[data.ID+'.name'] = $scope.name;
 			  $cookies[data.ID+'.member_id'] = data.member_id;
 			  $cookies[data.ID+'.title'] = $scope.theme;
 			  $cookies[data.ID+'.color'] = $scope.ccolor;
 			  $cookies[data.ID+'.flag'] = 'true';
-			  //console.log($cookies[data.ID+'.name']);
 			  $location.path("/brain/"+data.ID+"/waiting");
 
 		      };
