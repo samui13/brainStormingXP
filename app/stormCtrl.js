@@ -107,13 +107,19 @@ angular.
 			//Group の移動処理
 			var target = $($event.target);
 			if(target.hasClass('group')){
-			    target.droppable({drop:Groups.droppableOpt.drop,
-					     out:function(e,ui){
-						 var parentID = $(ui.helper[0]).get(0).id;
-						 var obj = $("#"+parentID);
-						 var postit = $scope.postits[parentID];
-						 postit.group_id = "";
-					     }});
+			    target.droppable({
+				drop:Groups.droppableOpt.drop,
+				out:function(e,ui){
+				    var parentID = $(ui.helper[0]).get(0).id;
+				    var obj = $("#"+parentID);
+				    $scope.postits
+					.$child(parentID)
+					.$child('group_id').
+					$set('');
+				    var postit = $scope.postits[parentID]
+				    postit.group_id = '';
+				}
+			    });
 			    target.draggable(Groups.droggableOpt);
 			    target.draggable('enable');
 			    var id = target.get(0).id;
