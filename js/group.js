@@ -1,6 +1,7 @@
 Groups = {};
 Groups.droggableOpt = {
     zIndex:3,
+    
 }
 Groups.droppableOpt = {
     drop:function(e,ui){

@@ -100,7 +100,9 @@ angular.
 			    var offset = target.offset();
 			    var postit = $scope.postits[id];
 			    if(target.parent().hasClass('group')){
-				postit.group_id = "";
+				//var group = $(target.parent().get(0));
+				//if(group.attr('id') != postit.group_id)
+				//postit.group_id = "";
 			    }
 			    postit.pos_x = offset.left;
 			    postit.pos_y = offset.top - $scope.headerOffsetY;
@@ -110,8 +112,14 @@ angular.
 			//Group の移動処理
 			var target = $($event.target);
 			if(target.hasClass('group')){
-			    target.droppable(Groups.droppableOpt);
-			    target.draggable(Groups.draggableOpt);
+			    target.droppable({drop:Groups.droppableOpt.drop,
+					     out:function(e,ui){
+						 var parentID = $(ui.helper[0]).get(0).id;
+						 var obj = $("#"+parentID);
+						 var postit = $scope.postits[parentID];
+						 postit.group_id = "";
+					     }});
+			    target.draggable(Groups.droggableOpt);
 			    target.draggable('enable');
 			    var id = target.get(0).id;
 			    var offset = target.offset();
