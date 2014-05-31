@@ -3,6 +3,7 @@ angular.
     controller('StormCtrl',
 	       ['$scope','$location','$http','$routeParams','$cookies','$firebase','RoomService','$timeout',
 		function($scope,$location,$http,$routeParams,$cookies,$firebase,DB,$timeout){
+		    
 		    // brain/:hash
 		    // ここはえらーしょりなくてもいいかも
 		    $scope.roomID = $routeParams.roomID;
@@ -90,6 +91,7 @@ angular.
 		    }
 		    $scope.movePostit = function($event){
 			// Postitの移動処理
+			// mouserover(のったら)したら。
 			var target = $($event.target);
 			if(!target.hasClass('content')){
 			    target.draggable(PostIts.draggableOpt);
@@ -100,7 +102,8 @@ angular.
 				$scope.postits[id].group_id = "";
 			    }
 			    $scope.postits[id].pos_x = offset.left;
-			    $scope.postits[id].pos_y = offset.top;
+			    $scope.postits[id].pos_y = offset.top - $scope.headerOffsetY;
+			    
 			}
 		    }
 		    $scope.moveGroup = function($event){
@@ -113,7 +116,7 @@ angular.
 			    var id = target.get(0).id;
 			    var offset = target.offset();
 			    $scope.groups[id].pos_x = offset.left;
-			    $scope.groups[id].pos_y = offset.top;
+			    $scope.groups[id].pos_y = offset.top-$scope.headerOffsetY;
 			}
 		    }
 		    $scope.colorGroup = function($event){
@@ -141,15 +144,16 @@ angular.
 
 		    }
 		    angular.element(document).ready(function() {
-			
+			$scope.headerOffsetY = parseInt($("#header").css('height'));
 			$(document).on('mouseout','.draggablePostIt',function(e){
 			    $(this).draggable(PostIts.draggableOpt);
 			    $(this).draggable('disable');
 			    var id = $(this).get(0).id;
 			    var offset = $(this).offset();
+
 			    $scope.postits[id].pos_x = offset.left;
-			    $scope.postits[id].pos_y = offset.top;						      
-			    // Post It がGroupに被っていたときの処理。
+			    $scope.postits[id].pos_y = offset.top-$scope.headerOffsetY;	
+			    // Post It がGroupに被っていたときの処理
 			});
 			
 			// Group
@@ -159,7 +163,7 @@ angular.
 			    var id = $(this).get(0).id;
 			    var offset = $(this).offset();
 			    $scope.groups[id].pos_x = offset.left;
-			    $scope.groups[id].pos_y = offset.top;			      
+			    $scope.groups[id].pos_y = offset.top-$scope.headerOffsetY;			      
 			    // 取り敢えず、マウスがグループから離れたときに
 			    // グループの中身を調べてポストイットがあればgroup_idを変更する
 			    // そとにだした場合にはPostit mouseoutEventで登録
