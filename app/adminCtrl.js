@@ -23,7 +23,7 @@ angular.
 			  });
 			  var memberData = room.child('members').push({
 			      name:this.name,
-			      color:'#FF0000',
+			      color:$scope.ccolor,
 			      owner_flag:'true',
 			  });
 			  
@@ -33,10 +33,10 @@ angular.
 			  //this.text
 			  $cookies[data.ID+'.name'] = this.name;
 			  $cookies[data.ID+'.member_id'] = data.member_id;
-			  $cookies[data.ID+'.title'] = 'test';
-			  $cookies[data.ID+'.color'] = '#FF0000';
+			  $cookies[data.ID+'.title'] = $scope.theme;
+			  $cookies[data.ID+'.color'] = $scope.ccolor;
 			  $cookies[data.ID+'.flag'] = 'true';
-			  console.log($cookies[data.ID+'.name']);
+			  //console.log($cookies[data.ID+'.name']);
 			  $location.path("/brain/"+data.ID+"/waiting");
 
 		      };

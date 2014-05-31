@@ -4,7 +4,6 @@ angular.
 	       ['$scope','$location','$http','$routeParams','$cookies','$firebase','RoomService','$timeout',
 		function($scope,$location,$http,$routeParams,$cookies,$firebase,DB,$timeout){
 		    // brain/:hash
-		    console.log($cookies);
 		    // ここはえらーしょりなくてもいいかも
 		    $scope.roomID = $routeParams.roomID;
 		    if(!$cookies[$scope.roomID+'.name']){
