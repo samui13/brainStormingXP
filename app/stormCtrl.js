@@ -98,12 +98,12 @@ angular.
 			    target.draggable('enable');
 			    var id = target.get(0).id;
 			    var offset = target.offset();
+			    var postit = $scope.postits[id];
 			    if(target.parent().hasClass('group')){
-				$scope.postits[id].group_id = "";
-				console.log("H");
+				postit.group_id = "";
 			    }
-			    $scope.postits[id].pos_x = offset.left;
-			    $scope.postits[id].pos_y = offset.top - $scope.headerOffsetY;
+			    postit.pos_x = offset.left;
+			    postit.pos_y = offset.top - $scope.headerOffsetY;
 			}
 		    }
 		    $scope.moveGroup = function($event){
@@ -144,15 +144,16 @@ angular.
 
 		    }
 		    angular.element(document).ready(function() {
+			// Headerの高さぶんElementの座標をかえる
 			$scope.headerOffsetY = parseInt($("#header").css('height'));
 			$(document).on('mouseout','.draggablePostIt',function(e){
 			    $(this).draggable(PostIts.draggableOpt);
 			    $(this).draggable('disable');
 			    var id = $(this).get(0).id;
 			    var offset = $(this).offset();
-
-			    $scope.postits[id].pos_x = offset.left;
-			    $scope.postits[id].pos_y = offset.top-$scope.headerOffsetY;	
+			    var postit = $scope.postits[id];
+			    postit.pos_x = offset.left;
+			    postit.pos_y = offset.top-$scope.headerOffsetY;	
 			    // Post It がGroupに被っていたときの処理
 			});
 			
@@ -162,8 +163,9 @@ angular.
 			    $(this).draggable('disable');
 			    var id = $(this).get(0).id;
 			    var offset = $(this).offset();
-			    $scope.groups[id].pos_x = offset.left;
-			    $scope.groups[id].pos_y = offset.top-$scope.headerOffsetY;			      
+			    var group = $scope.groups[id];
+			    group.pos_x = offset.left;
+			    group.pos_y = offset.top-$scope.headerOffsetY;			      
 			    // 取り敢えず、マウスがグループから離れたときに
 			    // グループの中身を調べてポストイットがあればgroup_idを変更する
 			    // そとにだした場合にはPostit mouseoutEventで登録
