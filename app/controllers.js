@@ -71,6 +71,7 @@ storm.controller('StormWaitingCtrl',
 		  function($scope,$routeParams,$location,$cookies,DB){
 		      $scope.roomID = $routeParams.roomID;
 		      if(!$cookies[$scope.roomID+'.name']){
+			  // Cookieに、一度ログインした記録があれば、移動
 			  $location.path("/login/"+$scope.roomID);
 		      }
 		      $scope.owner = $cookies[$scope.roomID+'.flag'];
@@ -167,6 +168,10 @@ storm.controller('StormOneCtrl',
 			  var postits = room.$child('postits');
 			  var count = postits.$getIndex().length;
 			  for(var key in $scope.postits){
+			      if($scope.postits[key].text == 'IDEA'){
+				  //デフォルトのままだと、そのままにする。
+				  continue;
+			      }
 			      $scope.postits[key].pos_x = 30+(count%4)*260;
 			      $scope.postits[key].pos_y = 100+Math.floor(count/4)*50;
 			      postits.$add($scope.postits[key]);
