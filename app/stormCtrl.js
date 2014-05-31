@@ -100,10 +100,10 @@ angular.
 			    var offset = target.offset();
 			    if(target.parent().hasClass('group')){
 				$scope.postits[id].group_id = "";
+				console.log("H");
 			    }
 			    $scope.postits[id].pos_x = offset.left;
 			    $scope.postits[id].pos_y = offset.top - $scope.headerOffsetY;
-			    
 			}
 		    }
 		    $scope.moveGroup = function($event){
@@ -173,12 +173,7 @@ angular.
 				var elem = $('#'+contentID);
 				if(contentID == '')
 				    return true;
-				
-				
-				var postit = $scope.postits.$child(contentID).$child('group_id');
-				if(!(postit.$value == contentID))
-				    postit.$set(id);
-				
+				$scope.postits[contentID].group_id = id;
 			    });
 			});
 
