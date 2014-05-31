@@ -46,7 +46,7 @@ angular.
 			var newPostit = angdb.$child('postits').$add({
 			    text:'New Postit',
 			    pos_x : posX,
-			    pos_y : posY,
+			    pos_y : posY-$scope.headerOffsetY,
 			    color: $cookies[$scope.roomID+'.color'],
 			    created_id: parseInt((new Date)/1000), // 作成時間
 			    holding_id: $cookies[$scope.roomID+'.member_id'], // UserID
