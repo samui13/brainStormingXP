@@ -4,7 +4,6 @@ angular.module('stormFilter',[]).
 	    var out = [];
 	    for(var key in input){
 		var postit = input[key];
-		
 		if(postit.group_id !== '')
 		    continue
 		out.push(postit);
@@ -19,8 +18,11 @@ angular.module('stormFilter',[]).
 		var postit = input[key];
 		if(postit.group_id === '')
 		    continue
-		if(postit.group_id !== status)
+		var parentID = $($("#"+postit.$id).parent().get(0)).attr('id');
+		if(postit.group_id !== status 
+		   && parentID !==  status){
 		    continue
+		}
 		out.push(postit);
 	    }
 	    return out;
