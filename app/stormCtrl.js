@@ -99,11 +99,6 @@ angular.
 			    var id = target.get(0).id;
 			    var offset = target.offset();
 			    var postit = $scope.postits[id];
-			    if(target.parent().hasClass('group')){
-				//var group = $(target.parent().get(0));
-				//if(group.attr('id') != postit.group_id)
-				//postit.group_id = "";
-			    }
 			    postit.pos_x = offset.left;
 			    postit.pos_y = offset.top - $scope.headerOffsetY;
 			}
