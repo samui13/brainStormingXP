@@ -75,9 +75,6 @@ storm.controller('StormWaitingCtrl',
 		      if($scope.owner != 'true'){
 			  $('.waitingForm').css('display','none');
 		      }
-		      
-		      $scope.time = 1;
-		      $scope.ideacount = 5;
 		      $scope.timer = DB.getDB($scope.roomID).$child('timerDate');
 		      $scope.timer.$on("change",function(){
 			  if($scope.flag != true){
