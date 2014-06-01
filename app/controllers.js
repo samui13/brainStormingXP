@@ -73,8 +73,10 @@ storm.controller('StormWaitingCtrl',
 		      }
 		      $scope.owner = $cookies[$scope.roomID+'.flag'];
 		      if($scope.owner != 'true'){
+			  // オーナーではないなら、時間とアイディア量を変更できない。
 			  $('.waitingForm').css('display','none');
 		      }
+		      
 		      $scope.timer = DB.getDB($scope.roomID).$child('timerDate');
 		      $scope.timer.$on("change",function(){
 			  if($scope.flag != true){
@@ -102,6 +104,7 @@ storm.controller('StormWaitingCtrl',
 			  $location.path("/brain/"+$scope.roomID+"/storm");
 		      }
 		  }]);
+
 // ひとりでやるやーつ
 storm.controller('StormOneCtrl',
 		 ['$scope','$routeParams','$location','$cookies','RoomService','$timeout',
