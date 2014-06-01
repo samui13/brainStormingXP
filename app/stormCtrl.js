@@ -154,8 +154,9 @@ angular.
 
 		    }
 		    angular.element(document).ready(function() {
-			// Headerの高さぶんElementの座標をかえる
+			// Headerの高さぶんElementの座標をかえるためのやつ。
 			$scope.headerOffsetY = parseInt($("#header").css('height'));
+
 			$(document).on('mouseout','.draggablePostIt',function(e){
 			    $(this).draggable(PostIts.draggableOpt);
 			    $(this).draggable('disable');
