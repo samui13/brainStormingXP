@@ -138,14 +138,12 @@ storm.controller('StormOneCtrl',
 			      $scope.goStorm();
 			  }
 		      }
-		      
-		      
 		      $scope.postits = [];
 		      $scope.ideaCount = room.$child('ideaCount');
 		      $scope.ideaCount.$on("loaded",function(){
-			  for(var i = 0; i < $scope.ideaCount.$value; i++){
+			  $.each(new Array($scope.ideaCount.$value),function(){
 			      $scope.addPostit();
-			  }
+			  });
 		      });
 		      $scope.addPostit = function(){
 			  $scope.postits.push({
