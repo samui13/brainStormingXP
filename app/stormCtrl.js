@@ -3,31 +3,29 @@ angular.
     controller('StormCtrl',
 	       ['$scope','$location','$http','$routeParams','$cookies','$firebase','RoomService','$timeout',
 		function($scope,$location,$http,$routeParams,$cookies,$firebase,DB,$timeout){
-		    
 		    // brain/:hash
-		    // ここはえらーしょりなくてもいいかも
 		    $scope.roomID = $routeParams.roomID;
 		    if(!$cookies[$scope.roomID+'.name']){
 			// Need Login
 			$location.path("/login/"+$scope.roomID);
 		    }
+		    // ユーザーリスト表示用
 		    $scope.ShowSlide = function(){
 			if($("#UserList").is(":hidden"))
 			    $('#UserList').slideDown('slow');
 			else
 			    $('#UserList').hide('slow');
 		    };
+		    
 		    // Serviceにかくべき。
 		    var room = DB.getRef();
 		    var angdb = room.$child($scope.roomID);
 		    $scope.users = angdb.$child("members");
 		    $scope.theme = angdb.$child('theme');
 		    $scope.open = angdb.$child('openPostit');
-		    //$scope.postits = angdb.$child('postits');
 		    angdb.$child('postits').$bind($scope,'postits').then(function(){
 		    });
 		    angdb.$child('groups').$bind($scope,'groups');
-		    // えらーしょりひつよう
 		    // User Add してないなら；
 		    $scope.user =  $cookies[$scope.roomID+'.name'];
 		    
@@ -47,18 +45,16 @@ angular.
 			    text:'New Postit',
 			    pos_x : posX,
 			    pos_y : posY-$scope.headerOffsetY,
-			    color: $cookies[$scope.roomID+'.color'],
+			    color: $cookies[$scope.roomID+'.color'], //色
 			    created_id: parseInt((new Date)/1000), // 作成時間
 			    holding_id: $cookies[$scope.roomID+'.member_id'], // UserID
 			    group_id:'',// Group IDを保持
 			    editor_id:'', // 編集している人のID
 			}).finally(function(){
-			    //angdb.$child('postits').$bind($scope,'postits');
 			});
 			return newPostit;
 		    }
 		    $scope.addGroup = function(){
-			//$scope.groups = angdb.$child('groups');
 			var newGroup = angdb.$child('groups').$add({
 			    pos_x : 0,
 			    pos_y : 0,
@@ -69,13 +65,10 @@ angular.
 			    color:'#FFFFFF',
 			    text:'New Group',
 			}).finally(function(){
-			    if(typeof $scope.groups == 'undefined')
-				angdb.$child('groups').$bind($scope,'groups');
 			});
 			return newGroup;
 		    }
 		    $scope.viewSheet = function(){
-			//userUI.viewSheet()
 		    }
 		    $scope.count = angdb.$child('timerCount');
 		    $scope.owner = $cookies[$scope.roomID+'.flag'];
@@ -83,10 +76,10 @@ angular.
 		    $scope.createPostit = function($event){
 			// Dblclickで Postit 作成
 			var target = $($event.target);
-			if(target.hasClass('group') || target.hasClass('draggablePostIt') ||
+			if(target.hasClass('group') ||
+			   target.hasClass('draggablePostIt') ||
 			   target.hasClass('content'))
 			    return false;
-
 			$scope.addPostIt($event.clientX,$event.clientY);
 		    }
 		    $scope.movePostit = function($event){
