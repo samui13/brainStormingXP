@@ -128,6 +128,7 @@ angular.
 			}
 		    }
 		    $scope.colorGroup = function($event){
+			// Dblclickで、グループの背景色をかえる。
 			var target = $($event.target);
 			var id = target.get(0).id;
 			if($(target).hasClass('draggablePostIt')){
@@ -139,14 +140,15 @@ angular.
 			var now = $('#'+id).css('background-color');
 			var rgb2hex = function (rgb) {
 			    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-			    function hex(x) {
+			    var hex = function(x) {
 				return ("0" + parseInt(x).toString(16)).slice(-2);
 			    }
 			    return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
 			}
 			var colorIndex = ((colors.indexOf(rgb2hex(now))+1)%colors.length);
 			var color = colors[colorIndex];
-			c.$set(color).finally(function(){
+			c.$set(color).
+			    finally(function(){
 			    $("#"+id).css('background-color',color);
 			});
 
