@@ -132,7 +132,6 @@ storm.controller('StormOneCtrl',
 			      $('.countDown').
 				  text($scope.time).
 				  css('display','inline');
-			      
 			  }
 			  if($scope.time < 0){
 			      $timeout.cancel($scope.mytimeout);
@@ -163,17 +162,15 @@ storm.controller('StormOneCtrl',
 		      $scope.goStorm = function(){
 			  var postits = room.$child('postits');
 			  var count = postits.$getIndex().length;
-			  for(var key in $scope.postits){
-			      if($scope.postits[key].text == 'IDEA'){
-				  //デフォルトのままだと、そのままにする。
-				  continue;
-			      }
-			      $scope.postits[key].pos_x = 30+(count%4)*260;
-			      $scope.postits[key].pos_y = 100+Math.floor(count/4)*50;
-			      postits.$add($scope.postits[key]);
+			  $.each($scope.postits,function(i,val){
+			      if(val.text == 'IDEA')
+				  return true;
+			      val.pos_x = 5+(count%4)*260;
+			      val.pos_y = 100+Math.floor(count/4)*50;
+			      postits.$add(val);
 			      count+=1;
-			  }
-			  $location.path("/brain/"+$scope.roomID);
+			  });
+			  $location.path("/brain/"+$scope.roomID);    
 		      };
 
 		      
