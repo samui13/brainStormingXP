@@ -105,12 +105,18 @@ angular.
 				out:function(e,ui){
 				    var parentID = $(ui.helper[0]).get(0).id;
 				    var obj = $("#"+parentID);
+				    var postit = $scope.postits[parentID]
 				    $scope.postits
 					.$child(parentID)
 					.$child('group_id').
 					$set('');
-				    var postit = $scope.postits[parentID]
 				    postit.group_id = '';
+				    postit.pos_x = e.clientX;
+				    postit.pos_y = e.clientY;
+				    obj.css({
+					"left":e.clientX,
+					"top":e.clientY-$scope.headerOffsetY
+				    });
 				}
 			    });
 			    target.draggable(Groups.droggableOpt);
