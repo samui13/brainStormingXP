@@ -5,7 +5,6 @@ if(typeof stormControllers === 'undefined'){
 storm.controller('StormAddUserCtrl',
 		 ['$scope','$location','$routeParams','$cookies','$cookieStore','RoomService','ColorService',
 		  function($scope,$location,$routeParams,$cookies,$cookieStore,DB,ColorDB){
-		      console.log($timeout);
 		      $scope.roomID = $routeParams.roomID;
 		      if($cookies[$scope.roomID+'.name'])
 			  $location.path("brain/"+$scope.roomID+"/waiting");
@@ -20,7 +19,6 @@ storm.controller('StormAddUserCtrl',
 			  var ref = DB.getRef();
 			  var db = ref.$child($scope.roomID);
 			  var members = db.$child('members');
-			  console.log(ColorDB.getColor);
 			  var data = db.$child('members').$add({
 			      name : this.content,
 			      color:$scope.ccolor,
@@ -38,7 +36,6 @@ storm.controller('StormAddUserCtrl',
 storm.controller('ColorModalCtrl',
 		 ['$scope','ColorService',
 		  function($scope,ColorDB){
-		      
 		      //$scope.ccolor = '#00FF00';
 		      $scope.ccolor = ColorDB.getColor();
 		      $scope.colors = [['#00FF00','#008080','#0068b7','#00a7db','#432f2f'],
@@ -78,6 +75,7 @@ storm.controller('StormWaitingCtrl',
 		      if($scope.owner != 'true'){
 			  $('.waitingForm').css('display','none');
 		      }
+		      
 		      $scope.time = 1;
 		      $scope.ideacount = 5;
 		      $scope.timer = DB.getDB($scope.roomID).$child('timerDate');
@@ -94,8 +92,6 @@ storm.controller('StormWaitingCtrl',
 		      $scope.users = DB.getUsers();
 		      $scope.title = room.$child('theme');
 		      $scope.stormBegin = function(){
-			  console.log($scope.time);
-			  console.log($scope.ideacount);
 			  DB.getDB($scope.roomID).
 			      $child('ideaCount').
 			      $set($scope.ideacount);
