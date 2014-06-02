@@ -21,7 +21,7 @@ angular.
 			      postits:"",
 			  }).then(function(ref){
 			      var roomID = ref.name();
-			      var room = rooms.$child(roomID);
+			      var room = DB.getDB(roomID);
 			      room.$child('members').$add({
 				  name:$scope.name,
 				  color:$scope.ccolor,

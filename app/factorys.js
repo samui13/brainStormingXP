@@ -13,33 +13,37 @@ angular.module('stormTest',[]).
     });
 
 angular.module('stormFactory',[]).factory('RoomService',['$firebase',function($firebase){
-	var ref = new Firebase("https://localbrainst-samui13.firebaseio.com/");
-	var DB = $firebase(ref);
-	var room = DB.$child('rooms');
+    var ref = new Firebase("https://localbrainst-samui13.firebaseio.com/");
+    var DB = $firebase(ref);
+    var rooms = DB.$child('rooms');
     var roomID;
-	return {
-	    setPos : function(obj,x,y,objs){
-		var posx =  obj.$child('pos_x');
-		var posy =  obj.$child('pos_y');
-		//objs.$off();
-		posx.$set(x).
-		    finally(function(){
-			posy.$set(y).finally(function(){
-			    //objs.$on();
-			});
+    return {
+	setPos : function(obj,x,y,objs){
+	    var posx =  obj.$child('pos_x');
+	    var posy =  obj.$child('pos_y');
+	    //objs.$off();
+	    posx.$set(x).
+		finally(function(){
+		    posy.$set(y).finally(function(){
 			//objs.$on();
 		    });
-	    },
-	    getRef: function(){
-		return room;
-	    },
-	    getDB: function(id){
-		roomID = id;
-		return room.$child(id);
-	    },
-	    getUsers: function(){
-		return room.$child(roomID).$child("members");
-	    },
-	};
-
-    }]);
+		    //objs.$on();
+		});
+	},
+	getRef: function(){
+	    return rooms;
+	},
+	setRoom:function(id){
+	    roomID = id;
+	    room = rooms.$child(id);
+	},
+	getDB: function(id){
+	    this.setRoom(id);
+	    return room;//rooms.$child(id);
+	},
+	getUsers: function(){
+	    return rooms.$child(roomID).$child("members");
+	},
+    };
+    
+}]);
