@@ -1,8 +1,8 @@
 angular.
     module('adminControllers',['stormFactory','stormFilter']).
     controller('StormMakeCtrl',
-		 ['$scope','$http','$cookies','$location','$firebase','ColorService',
-		  function($scope,$http,$cookies,$location,$firebase,ColorDB){
+		 ['$scope','$http','$cookies','$location','ColorService','RoomService',
+		  function($scope,$http,$cookies,$location,ColorDB,DB){
 		      $scope.$watch(function(){
 			  return ColorDB.getColor()
 		      },function(){
@@ -10,9 +10,8 @@ angular.
 		      });
 
 		      $scope.submit = function(){
-			  var ref = new Firebase("https://localbrainst-samui13.firebaseio.com/rooms/");				     
-			  var rooms = $firebase(ref);
-			  var room = ref.push({
+			  var rooms = DB.getRef();
+			  rooms.$add({
 			      openPostit:false,
 			      timerDate:'NULL',
 			      timerCount:'NULL',
@@ -20,23 +19,20 @@ angular.
 			      theme:$scope.theme,
 			      groups:"",
 			      postits:"",
+			  }).then(function(ref){
+			      var roomID = ref.name();
+			      var room = rooms.$child(roomID);
+			      room.$child('members').$add({
+				  name:$scope.name,
+				  color:$scope.ccolor,
+				  owner_flag:'true',
+			      });
+			      $cookies[roomID+'.name'] = $scope.name;
+			      //$cookies[roomID+'.member_id'] = data.member_id; // 使ってない
+			      $cookies[roomID+'.title'] = $scope.theme;
+			      $cookies[roomID+'.color'] = $scope.ccolor;
+			      $cookies[roomID+'.flag'] = 'true';
+			      $location.path("/brain/"+roomID+"/waiting");
 			  });
-			  var memberData = room.child('members').push({
-			      name:$scope.name,
-			      color:$scope.ccolor,
-			      owner_flag:'true',
-			  });
-			  
-			  var data = {};
-			  data.ID = room.name();
-			  data.member_id = memberData.name();
-			  //this.text
-			  $cookies[data.ID+'.name'] = $scope.name;
-			  $cookies[data.ID+'.member_id'] = data.member_id;
-			  $cookies[data.ID+'.title'] = $scope.theme;
-			  $cookies[data.ID+'.color'] = $scope.ccolor;
-			  $cookies[data.ID+'.flag'] = 'true';
-			  $location.path("/brain/"+data.ID+"/waiting");
-
 		      };
 		  }]);
