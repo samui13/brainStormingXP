@@ -158,7 +158,14 @@ angular.
 			var groupID = group.attr('id');
 			group.remove();
 			$scope.groups.$remove(groupID);
-			
+			$.each(group.children(),function(i,val){
+			    var dom = $(val);
+			    if(!dom.hasClass('draggablePostIt'))
+				return true;
+			    var postitID = dom.attr('id');
+			    var postit = $scope.postits[postitID];
+			    postit.group_id = '';
+			});
 		    }
 		    angular.element(document).ready(function() {
 			// Headerの高さぶんElementの座標をかえるためのやつ。
