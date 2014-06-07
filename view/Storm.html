@@ -61,8 +61,9 @@
   
   <!-- Group -->
   <div class="group droppableGroup draggableGroup" ng-repeat="group in groups | orderByPriority" id="{{group.$id}}" ng-mouseover="moveGroup($event);" ng-dblclick="colorGroup($event);" style="position:absolute;left:{{group.pos_x}}px;top:{{group.pos_y}}px;background-color:{{group.color}};">
+    <a href ng-click="removeGroup($event)"><div class="glyphicon glyphicon-remove" style="float:right"></div></a>
     <div class="content footer" contenteditable="true" ng-model="group.text" no-line-breaks="true"></div>
-
+    
     <!-- Postit Contents -->
     <div ng-repeat="postit in postits | orderByPriority|check:group.$id" ng-mouseover="movePostit($event);" id="{{postit.$id}}" class="draggablePostIt" style="position:relative;background-color:{{postit.color}};" aria-disable="true">
       <div class="content" contenteditable="true" ng-model="postit.text" no-line-breaks="true"></div>
