@@ -153,6 +153,13 @@ angular.
 			});
 
 		    }
+		    $scope.removeGroup = function($event){
+			var group = $($($event.target.offsetParent).get(0));
+			var groupID = group.attr('id');
+			group.remove();
+			$scope.groups.$remove(groupID);
+			
+		    }
 		    angular.element(document).ready(function() {
 			// Headerの高さぶんElementの座標をかえるためのやつ。
 			$scope.headerOffsetY = parseInt($("#header").css('height'));
